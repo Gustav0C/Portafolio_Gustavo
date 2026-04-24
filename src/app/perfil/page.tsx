@@ -35,7 +35,7 @@ export default function Perfil() {
       <div className={styles.header}>
         <div className={styles.avatar}>
           <Image
-            src="/perfil.webp"
+            src="/Perfil.webp"
             alt="Gustavo Canales"
             fill
             className={styles.avatarImage}
