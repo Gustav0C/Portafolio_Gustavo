@@ -1,0 +1,85 @@
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: 50px;
+  padding: 4px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  background-color: var(--color-surface);
+}
+
+.toggle:hover {
+  border-color: var(--color-border-strong);
+}
+
+.iconWrapper {
+  position: relative;
+  width: 18px;
+  height: 18px;
+}
+
+.icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: all var(--transition-fast);
+  color: var(--color-text-muted);
+}
+
+.moon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.moon.active {
+  opacity: 0;
+  transform: scale(0) rotate(-90deg);
+}
+
+.sun {
+  opacity: 0;
+  transform: scale(0) rotate(90deg);
+}
+
+.sun.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.track {
+  width: 36px;
+  height: 20px;
+  background-color: var(--color-dark);
+  border-radius: 50px;
+  position: relative;
+  transition: background-color var(--transition-fast);
+}
+
+.thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  background-color: var(--color-light);
+  border-radius: 50%;
+  transition: all var(--transition-fast);
+}
+
+.thumbLight {
+  left: 18px;
+  background-color: var(--color-warning);
+}
+
+/* Focus state */
+.toggle:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+.toggle:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-accent);
+}

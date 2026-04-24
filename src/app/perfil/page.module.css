@@ -1,0 +1,154 @@
+.profile {
+  padding: var(--space-md) 0;
+}
+
+/* Header */
+.header {
+  display: flex;
+  gap: var(--space-xl);
+  align-items: flex-start;
+  margin-bottom: var(--space-3xl);
+}
+
+.avatar {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  border-radius: var(--radius-micro);
+  background-color: var(--color-surface);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.avatarImage {
+  object-fit: cover;
+}
+
+.info h1 {
+  margin-bottom: var(--space-sm);
+}
+
+.title {
+  color: var(--color-gray);
+  margin-bottom: var(--space-md);
+}
+
+.bio {
+  color: var(--color-gray);
+  max-width: 600px;
+  line-height: var(--line-height-normal);
+}
+
+/* Section */
+.section {
+  padding: var(--space-2xl) 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.sectionTitle {
+  margin-bottom: var(--space-lg);
+}
+
+/* Skills Grid */
+.skillsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-xl);
+}
+
+.skillCategory h3 {
+  font-size: var(--font-size-small);
+  color: var(--color-gray);
+  margin-bottom: var(--space-md);
+  font-weight: var(--font-weight-medium);
+}
+
+.skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  list-style: none;
+}
+
+.skill {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-small);
+  color: var(--color-light);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-micro);
+}
+
+/* Timeline */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.timelineItem {
+  display: flex;
+  gap: var(--space-lg);
+}
+
+.timelineDate {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-small);
+  color: var(--color-text-muted);
+  width: 120px;
+  flex-shrink: 0;
+}
+
+.timelineContent {
+  flex: 1;
+}
+
+.timelineContent h3 {
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-xs);
+}
+
+.timelineCompany {
+  font-size: var(--font-size-small);
+  color: var(--color-gray);
+  margin-bottom: var(--space-sm);
+}
+
+.timelineDescription {
+  font-size: var(--font-size-small);
+  color: var(--color-gray);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .bio {
+    max-width: 100%;
+  }
+
+  .skillsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .timelineItem {
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .timelineDate {
+    width: 100%;
+  }
+}

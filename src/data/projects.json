@@ -1,0 +1,38 @@
+{
+  "projects": [
+    {
+      "id": "1776980840657",
+      "githubUrl": "https://github.com/Gustav0C/PomodoroApp",
+      "title": "PomodoroApp",
+      "description": "Pomodoro App Simple y Minimalista",
+      "image": "https://github.com/user-attachments/assets/06c9a0ca-5e12-4cdb-be17-3278ef655c65",
+      "technologies": [
+        "Tech",
+        "Stack",
+        "HTML",
+        "CSS",
+        "SVG",
+        "JavaScript"
+      ],
+      "stars": 1,
+      "demoUrl": "https://fis-pomodoro.vercel.app/"
+    },
+    {
+      "id": "1776980641499",
+      "githubUrl": "https://github.com/Gustav0C/AcortadorDeUrl",
+      "title": "AcortadorDeUrl",
+      "description": "Un acortador de URLs moderno con interfaz minimalista y códigos QR",
+      "image": "https://github.com/user-attachments/assets/02997cec-7123-4540-a002-eda068644d49",
+      "technologies": [
+        "Node.js",
+        "Express",
+        "Vercel",
+        "HTML",
+        "CSS",
+        "Git"
+      ],
+      "stars": 2,
+      "demoUrl": "https://fis-url.vercel.app"
+    }
+  ]
+}

@@ -1,0 +1,122 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Navigation */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--color-dark);
+  border-bottom: 1px solid var(--color-border);
+  z-index: 100;
+  padding: var(--space-md) 0;
+}
+
+.navbarInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+
+.brand {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-light);
+}
+
+.navRight {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.navLinks {
+  display: flex;
+  gap: var(--space-md);
+  list-style: none;
+}
+
+.navLink {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.navLink:hover {
+  color: var(--color-light);
+  text-decoration: underline;
+}
+
+/* Main Content */
+.main {
+  flex: 1;
+  padding: calc(var(--space-4xl) + 60px) var(--space-md) var(--space-2xl);
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Footer */
+.footer {
+  background-color: var(--color-dark);
+  border-top: 1px solid var(--color-border);
+  padding: var(--space-lg) 0;
+}
+
+.footerInner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+
+.copyright {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-small);
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.footerLinks {
+  display: flex;
+  gap: var(--space-md);
+  list-style: none;
+}
+
+.footerLink {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-small);
+  color: var(--color-gray);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.footerLink:hover {
+  color: var(--color-light);
+}
+
+/* Mobile Responsive */
+@media (max-width: 640px) {
+  .navLinks {
+    display: none;
+  }
+
+  .footerInner {
+    flex-direction: column;
+    gap: var(--space-md);
+    text-align: center;
+  }
+}
