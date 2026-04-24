@@ -6,7 +6,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 import PageTransition from "@/components/PageTransition";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://gustavocanales.dev"),
+  metadataBase: new URL("https://gustavo-canales.vercel.app),
   title: "Gustavo Canales | Desarrollador Full Stack",
   description: "Portafolio profesional de Gustavo Canales - Desarrollador Full Stack especializado en React, Next.js y herramientas de IA",
   keywords: ["desarrollador", "full stack", "React", "Next.js", "TypeScript", "portfolio"],
