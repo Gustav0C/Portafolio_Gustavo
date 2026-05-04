@@ -1,5 +1,20 @@
 import Image from "next/image";
+import type { Metadata } from "next";
 import styles from "./page.module.css";
+
+export const metadata: Metadata = {
+  title: "Perfil | Gustavo Canales - Full Stack Developer",
+  description: "Conoce mi perfil profesional. Desarrollador Full Stack con experiencia en React, Next.js, TypeScript, Python, SQL y herramientas de IA. Habilidades, experiencia y educación.",
+  openGraph: {
+    title: "Perfil de Gustavo Canales - Desarrollador Full Stack",
+    description: "Desarrollador profesional con experiencia en frontend, backend y herramientas modernas de desarrollo",
+    url: "https://gustavocanales.dev/perfil",
+    type: "profile",
+  },
+  alternates: {
+    canonical: "https://gustavocanales.dev/perfil",
+  },
+};
 
 export default function Perfil() {
   const skills = [
@@ -36,7 +51,7 @@ export default function Perfil() {
         <div className={styles.avatar}>
           <Image
             src="/perfil.webp"
-            alt="Gustavo Canales"
+            alt="Gustavo Canales - Desarrollador Full Stack"
             fill
             className={styles.avatarImage}
           />
@@ -88,7 +103,7 @@ export default function Perfil() {
             </ul>
           </div>
           <div className={styles.skillCategory}>
-            <h3>IA & Agentos</h3>
+            <h3>IA & Agentes</h3>
             <ul className={styles.skills}>
               {skills.filter(s => s.category === "ai").map(s => (
                 <li key={s.name} className={styles.skill}>{s.name}</li>

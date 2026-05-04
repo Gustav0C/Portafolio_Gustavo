@@ -1,0 +1,36 @@
+# robots.txt - SEO directives for web crawlers
+# https://developers.google.com/search/docs/crawling-indexing/robots-txt
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /.next/
+Disallow: /private/
+
+# Allow static resources
+Allow: /public/
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.webp$
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.svg$
+Allow: /*.ico$
+
+# Search engines crawl rate (optional, adjust based on your server)
+# Crawl-delay: 1
+# Request-rate: 10/1m
+
+# Sitemap reference
+Sitemap: https://gustavocanales.dev/sitemap.xml
+
+# Additional rules for specific bots (optional)
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1

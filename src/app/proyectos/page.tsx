@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import styles from "./page.module.css";
 import { 
   ExternalLink, 
@@ -9,7 +10,6 @@ import {
   Code, 
   Database, 
   Server, 
-  Globe, 
   Smartphone, 
   Cloud, 
   Terminal, 
@@ -83,11 +83,6 @@ const getTechIcon = (tech: string): LucideIcon => {
   return techIcons[key] || Code;
 };
 
-const isAdmin = (): boolean => {
-  if (typeof window === "undefined") return false;
-  return localStorage.getItem("admin") === "true";
-};
-
 // Fetch README and extract image + technologies
 const fetchReadmeData = async (owner: string, repo: string) => {
   const readmeUrls = [
@@ -115,7 +110,7 @@ const fetchReadmeData = async (owner: string, repo: string) => {
         }
         break;
       }
-    } catch (e) {
+    } catch {
       continue;
     }
   }
@@ -202,12 +197,19 @@ const getProjectData = async (owner: string, repoName: string, githubUrl: string
   };
 };
 
+const getAdminToken = () => {
+  if (typeof window === "undefined") return "";
+  return localStorage.getItem("adminToken") || "";
+};
+
 export default function Proyectos() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [isAdminUser, setIsAdminUser] = useState(false);
   const [githubUrl, setGithubUrl] = useState("");
+  const [adminPassword, setAdminPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [adminError, setAdminError] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [adminHint, setAdminHint] = useState(false);
 
@@ -225,11 +227,22 @@ export default function Proyectos() {
   }, []);
 
   useEffect(() => {
-    setIsAdminUser(isAdmin());
-    fetch("/api/projects")
+    const token = getAdminToken();
+    fetch("/api/projects", {
+      headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+    })
       .then((res) => res.json())
-      .then((data) => setProjects(data.projects || []))
-      .catch(() => setProjects([]));
+      .then((data) => {
+        setProjects(data.projects || []);
+        setIsAdminUser(Boolean(data?.canEdit));
+        if (!data?.canEdit && token) {
+          localStorage.removeItem("adminToken");
+        }
+      })
+      .catch(() => {
+        setProjects([]);
+        setIsAdminUser(false);
+      });
   }, []);
 
   const handleAddProject = async (e: React.FormEvent) => {
@@ -255,15 +268,22 @@ export default function Proyectos() {
       const newProject = await getProjectData(owner, repoName, githubUrl);
       
       const updatedProjects = [newProject, ...projects];
+      const response = await fetch("/api/projects", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getAdminToken()}`,
+        },
+        body: JSON.stringify({ projects: updatedProjects }),
+      });
+
+      if (!response.ok) {
+        throw new Error("No se pudo guardar el proyecto");
+      }
+
       setProjects(updatedProjects);
       setGithubUrl("");
       setShowForm(false);
-      
-      await fetch("/api/projects", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ projects: updatedProjects }),
-      });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Error desconocido");
     } finally {
@@ -272,25 +292,66 @@ export default function Proyectos() {
   };
 
   const handleDeleteProject = async (id: string) => {
+    setError("");
+    const previousProjects = projects;
     const updatedProjects = projects.filter((p) => p.id !== id);
     setProjects(updatedProjects);
     
-    await fetch("/api/projects", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ projects: updatedProjects }),
-    });
+    try {
+      const response = await fetch("/api/projects", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getAdminToken()}`,
+        },
+        body: JSON.stringify({ projects: updatedProjects }),
+      });
+
+      if (!response.ok) {
+        throw new Error();
+      }
+    } catch {
+      setProjects(previousProjects);
+      setError("No se pudo eliminar el proyecto");
+    }
   };
 
-  const handleLogin = () => {
-    // Easter egg: necesitas saber dónde está el botón + la contraseña
-    const password = prompt("Acceso administrativo:");
-    if (password === "gscp2024") {
-      localStorage.setItem("admin", "true");
+  const handleLogin = async () => {
+    const password = adminPassword.trim();
+    if (!password) {
+      setIsAdminUser(false);
+      setAdminError("Ingresá el token administrativo");
+      return;
+    }
+
+    setAdminError("");
+
+    try {
+      const response = await fetch("/api/projects", {
+        headers: { Authorization: `Bearer ${password}` },
+      });
+
+      if (!response.ok) {
+        throw new Error();
+      }
+
+      const data = await response.json();
+      if (!data?.canEdit) {
+        localStorage.removeItem("adminToken");
+        setIsAdminUser(false);
+        setAdminError("Token inválido. Verificá e intentá de nuevo.");
+        return;
+      }
+
+      localStorage.setItem("adminToken", password);
       setIsAdminUser(true);
-    } else {
-      // Feedback genérico - no revela si la contraseña es correcta o no
-      console.log("Intento de acceso denegado");
+      setAdminPassword("");
+      setAdminHint(false);
+      setAdminError("");
+    } catch {
+      localStorage.removeItem("adminToken");
+      setIsAdminUser(false);
+      setAdminError("No se pudo validar el token. Intentá nuevamente.");
     }
   };
 
@@ -306,15 +367,19 @@ export default function Proyectos() {
               type="password"
               placeholder="Password"
               className={styles.adminInput}
+              value={adminPassword}
+              onChange={(e) => setAdminPassword(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
-                  handleLogin();
+                  e.preventDefault();
+                  void handleLogin();
                 }
               }}
               onBlur={(e) => {
                 if (!e.target.value) setAdminHint(false);
               }}
             />
+            {adminError && <p className={styles.error}>{adminError}</p>}
           </div>
         )}
         
@@ -328,6 +393,8 @@ export default function Proyectos() {
           </button>
         )}
       </div>
+
+      {error && !showForm && <p className={styles.error}>{error}</p>}
 
       {showForm && isAdminUser && (
         <form className={styles.form} onSubmit={handleAddProject}>
@@ -357,15 +424,17 @@ export default function Proyectos() {
         {projects.map((project) => (
           <article key={project.id} className={styles.card}>
             <div className={styles.cardImageWrapper}>
-              <img
-                src={project.image}
-                alt={project.title}
-                className={styles.cardImage}
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = 
-                    `https://opengraph.github.com/api/og-image?title=${encodeURIComponent(project.title)}&theme=dark`;
-                }}
-              />
+               <Image
+                 src={project.image}
+                 alt={`${project.title} - Proyecto en GitHub`}
+                 className={styles.cardImage}
+                 fill
+                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                 onError={(e) => {
+                   const target = e.currentTarget as HTMLImageElement;
+                   target.src = `https://opengraph.github.com/api/og-image?title=${encodeURIComponent(project.title)}&theme=dark`;
+                 }}
+               />
             </div>
             <div className={styles.cardContent}>
               <h3 className={styles.cardTitle}>{project.title}</h3>
@@ -397,6 +466,7 @@ export default function Proyectos() {
                     rel="noopener noreferrer"
                     className={styles.link}
                     title="Ver en GitHub"
+                    aria-label={`Ver ${project.title} en GitHub`}
                   >
                     <Link size={16} />
                   </a>
@@ -407,6 +477,7 @@ export default function Proyectos() {
                       rel="noopener noreferrer"
                       className={styles.link}
                       title="Ver Demo"
+                      aria-label={`Ver demo de ${project.title}`}
                     >
                       <ExternalLink size={16} />
                     </a>
@@ -416,6 +487,7 @@ export default function Proyectos() {
                       onClick={() => handleDeleteProject(project.id)}
                       className={styles.deleteBtn}
                       title="Eliminar"
+                      aria-label={`Eliminar proyecto ${project.title}`}
                     >
                       <Trash2 size={16} />
                     </button>

@@ -1,5 +1,20 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import styles from "./page.module.css";
+
+export const metadata: Metadata = {
+  title: "Inicio | Gustavo Canales - Desarrollador Full Stack",
+  description: "Bienvenido al portafolio de Gustavo Canales. Desarrollador Full Stack con experiencia en React, Next.js y TypeScript. Explore mis proyectos y servicios.",
+  openGraph: {
+    title: "Gustavo Canales - Desarrollador Full Stack",
+    description: "Portafolio profesional con proyectos en React, Next.js y tecnologías web modernas",
+    url: "https://gustavocanales.dev",
+    type: "website",
+  },
+  alternates: {
+    canonical: "https://gustavocanales.dev/",
+  },
+};
 
 export default function Home() {
   return (
@@ -31,10 +46,10 @@ export default function Home() {
       </div>
 
       <div className={styles.cta}>
-        <Link href="/proyectos" className={`${styles.btnPrimary} hover-lift btn-press`}>
+        <Link href="/proyectos" className={styles.btnPrimary}>
           Ver Proyectos
         </Link>
-        <Link href="/contacto" className={`${styles.btnAccent} hover-lift btn-press`}>
+        <Link href="/contacto" className={styles.btnAccent}>
           Contactar
         </Link>
       </div>
