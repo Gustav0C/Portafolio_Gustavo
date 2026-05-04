@@ -7,22 +7,19 @@ import styles from "./ThemeToggle.module.css";
 type Theme = "dark" | "light";
 
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState<Theme>("dark");
-  const [mounted, setMounted] = useState(false);
+  const getInitialTheme = (): Theme => {
+    if (typeof window === "undefined") return "dark";
 
+    const saved = localStorage.getItem("theme") as Theme | null;
+    if (saved === "dark" || saved === "light") return saved;
+
+    return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+  };
+
+  const [theme, setTheme] = useState<Theme>(getInitialTheme);
   useEffect(() => {
-    setMounted(true);
-    const saved = localStorage.getItem("theme") as Theme;
-    if (saved) {
-      setTheme(saved);
-      document.documentElement.setAttribute("data-theme", saved);
-    } else if (window.matchMedia("(prefers-color-scheme: light)").matches) {
-      setTheme("light");
-      document.documentElement.setAttribute("data-theme", "light");
-    } else {
-      document.documentElement.setAttribute("data-theme", "dark");
-    }
-  }, []);
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
 
   const toggleTheme = () => {
     const newTheme = theme === "dark" ? "light" : "dark";
@@ -30,17 +27,6 @@ export default function ThemeToggle() {
     document.documentElement.setAttribute("data-theme", newTheme);
     localStorage.setItem("theme", newTheme);
   };
-
-  // Prevent hydration mismatch
-  if (!mounted) {
-    return (
-      <button className={styles.toggle} aria-label="Toggle theme">
-        <span className={styles.track}>
-          <span className={styles.thumb} />
-        </span>
-      </button>
-    );
-  }
 
   return (
     <button

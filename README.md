@@ -16,6 +16,19 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Environment variables
+
+For admin project writes and runtime data storage, define:
+
+- `PROJECTS_ADMIN_TOKEN`: bearer token required by `POST /api/projects`.
+- `PROJECTS_DATA_FILE` (optional): writable path for `projects.json` (absolute, or relative to project root). Default: `data/projects.json`.
+
+### Admin access in `/proyectos`
+
+1. Set `PROJECTS_ADMIN_TOKEN` in `.env.local`.
+2. Restart the dev server.
+3. Open `/proyectos`, press `Ctrl + Alt + 9`, type the token, and press Enter.
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.

@@ -1,6 +1,35 @@
 import type { NextConfig } from "next";
 
+const isDev = process.env.NODE_ENV === "development";
+const scriptSrc = isDev
+  ? "script-src 'self' 'unsafe-inline' 'unsafe-eval'"
+  : "script-src 'self' 'unsafe-inline'";
+
 const nextConfig: NextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "github.com",
+        pathname: "/user-attachments/assets/**",
+      },
+      {
+        protocol: "https",
+        hostname: "opengraph.github.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "raw.githubusercontent.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "user-images.githubusercontent.com",
+        pathname: "/**",
+      },
+    ],
+  },
   async headers() {
     return [
       {
@@ -11,9 +40,9 @@ const nextConfig: NextConfig = {
             value: [
               "default-src 'self'",
               "img-src 'self' https: data:",
-              "font-src 'self' https: data:",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
-              "style-src 'self' 'unsafe-inline'",
+              "font-src 'self' https://api.fontshare.com https://fonts.googleapis.com https://fonts.gstatic.com data:",
+              scriptSrc,
+              "style-src 'self' 'unsafe-inline' https://api.fontshare.com",
               "connect-src 'self' https://api.github.com",
               "frame-ancestors 'none'",
               "form-action 'self'",

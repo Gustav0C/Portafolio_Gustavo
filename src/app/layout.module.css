@@ -6,7 +6,7 @@
 
 /* Navigation */
 .navbar {
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   right: 0;
@@ -48,20 +48,19 @@
   font-family: var(--font-mono);
   font-size: var(--font-size-body);
   font-weight: var(--font-weight-medium);
-  color: var(--color-gray);
+  color: var(--color-light);
   text-decoration: none;
   transition: color var(--transition-fast);
 }
 
 .navLink:hover {
-  color: var(--color-light);
-  text-decoration: underline;
+  color: var(--color-accent);
 }
 
 /* Main Content */
 .main {
   flex: 1;
-  padding: calc(var(--space-4xl) + 60px) var(--space-md) var(--space-2xl);
+  padding: calc(var(--space-3xl) + 40px) var(--space-md) var(--space-2xl);
   max-width: 900px;
   width: 100%;
   margin: 0 auto;
