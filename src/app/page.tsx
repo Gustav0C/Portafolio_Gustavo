@@ -4,15 +4,17 @@ import styles from "./page.module.css";
 
 export const metadata: Metadata = {
   title: "Inicio | Gustavo Canales - Desarrollador Full Stack",
-  description: "Bienvenido al portafolio de Gustavo Canales. Desarrollador Full Stack con experiencia en React, Next.js y TypeScript. Explore mis proyectos y servicios.",
+  description:
+    "Bienvenido al portafolio de Gustavo Canales. Desarrollador Full Stack con experiencia en React, Next.js y TypeScript. Explore mis proyectos y servicios.",
   openGraph: {
     title: "Gustavo Canales - Desarrollador Full Stack",
-    description: "Portafolio profesional con proyectos en React, Next.js y tecnologías web modernas",
-    url: "https://gustavocanales.dev",
+    description:
+      "Portafolio profesional con proyectos en React, Next.js y tecnologías web modernas",
+    url: "https://gustavo-canales.vercel.app",
     type: "website",
   },
   alternates: {
-    canonical: "https://gustavocanales.dev/",
+    canonical: "https://gustavo-canales.vercel.app/",
   },
 };
 
@@ -21,10 +23,10 @@ export default function Home() {
     <div className={styles.hero}>
       <h1 className={styles.title}>Gustavo Canales</h1>
       <p className={styles.subtitle}>
-        Desarrollador Full Stack con pasión por crear soluciones elegantes y 
+        Desarrollador Full Stack con pasión por crear soluciones elegantes y
         experiencias de usuario excepcionales.
       </p>
-      
+
       {/* Terminal decorative element */}
       <div className={styles.terminal}>
         <div className={styles.terminalLine}>

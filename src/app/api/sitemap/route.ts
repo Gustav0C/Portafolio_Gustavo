@@ -1,14 +1,35 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://gustavocanales.dev";
+  const baseUrl =
+    process.env.NEXT_PUBLIC_BASE_URL || "https://gustavo-canales.vercel.app";
 
   // Define all static pages
   const pages = [
-    { url: "/", changefreq: "daily", priority: "1.0", lastmod: new Date().toISOString().split("T")[0] },
-    { url: "/perfil", changefreq: "monthly", priority: "0.8", lastmod: new Date().toISOString().split("T")[0] },
-    { url: "/proyectos", changefreq: "weekly", priority: "0.8", lastmod: new Date().toISOString().split("T")[0] },
-    { url: "/contacto", changefreq: "monthly", priority: "0.7", lastmod: new Date().toISOString().split("T")[0] },
+    {
+      url: "/",
+      changefreq: "daily",
+      priority: "1.0",
+      lastmod: new Date().toISOString().split("T")[0],
+    },
+    {
+      url: "/perfil",
+      changefreq: "monthly",
+      priority: "0.8",
+      lastmod: new Date().toISOString().split("T")[0],
+    },
+    {
+      url: "/proyectos",
+      changefreq: "weekly",
+      priority: "0.8",
+      lastmod: new Date().toISOString().split("T")[0],
+    },
+    {
+      url: "/contacto",
+      changefreq: "monthly",
+      priority: "0.7",
+      lastmod: new Date().toISOString().split("T")[0],
+    },
   ];
 
   // Generate XML sitemap
@@ -22,7 +43,7 @@ ${pages
     <lastmod>${page.lastmod}</lastmod>
     <changefreq>${page.changefreq}</changefreq>
     <priority>${page.priority}</priority>
-  </url>`
+  </url>`,
   )
   .join("\n")}
 </urlset>`;

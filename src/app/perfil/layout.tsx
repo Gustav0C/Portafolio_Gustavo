@@ -2,15 +2,17 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Perfil | Gustavo Canales - Full Stack Developer",
-  description: "Conoce mi perfil profesional. Desarrollador Full Stack con experiencia en React, Next.js, TypeScript, Python, SQL y herramientas de IA. Habilidades, experiencia y educación.",
+  description:
+    "Conoce mi perfil profesional. Desarrollador Full Stack con experiencia en React, Next.js, TypeScript, Python, SQL y herramientas de IA. Habilidades, experiencia y educación.",
   openGraph: {
     title: "Perfil de Gustavo Canales - Desarrollador Full Stack",
-    description: "Desarrollador profesional con experiencia en frontend, backend y herramientas modernas de desarrollo",
-    url: "https://gustavocanales.dev/perfil",
+    description:
+      "Desarrollador profesional con experiencia en frontend, backend y herramientas modernas de desarrollo",
+    url: "https://gustavo-canales.vercel.app/perfil",
     type: "profile",
   },
   alternates: {
-    canonical: "https://gustavocanales.dev/perfil",
+    canonical: "https://gustavo-canales.vercel.app/perfil",
   },
 };
 
@@ -33,13 +35,13 @@ export default function PerfilLayout({
                 "@type": "ListItem",
                 position: 1,
                 name: "Home",
-                item: "https://gustavocanales.dev/",
+                item: "https://gustavo-canales.vercel.app/",
               },
               {
                 "@type": "ListItem",
                 position: 2,
                 name: "Perfil",
-                item: "https://gustavocanales.dev/perfil",
+                item: "https://gustavo-canales.vercel.app/perfil",
               },
             ],
           }),

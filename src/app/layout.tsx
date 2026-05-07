@@ -7,7 +7,7 @@ import PageTransition from "@/components/PageTransition";
 import NavLinks from "@/components/NavLinks";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://gustavocanales.dev"),
+  metadataBase: new URL("https://gustavo-canales.vercel.app"),
   title:
     "Gustavo Canales | Desarrollador Full Stack | React, Next.js, TypeScript",
   description:
@@ -35,11 +35,11 @@ export const metadata: Metadata = {
       "Portafolio profesional - Desarrollador Full Stack especializado en React, Next.js, TypeScript y herramientas de IA",
     type: "website",
     locale: "es_AR",
-    url: "https://gustavocanales.dev",
+    url: "https://gustavo-canales.vercel.app",
     siteName: "Gustavo Canales",
     images: [
       {
-        url: "https://gustavocanales.dev/og-image.png",
+        url: "https://gustavo-canales.vercel.app/og-image.png",
         width: 1200,
         height: 630,
         alt: "Gustavo Canales - Portafolio de Desarrollador Full Stack",
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     title: "Gustavo Canales | Desarrollador Full Stack",
     description: "Portafolio profesional - React, Next.js, TypeScript y IA",
     creator: "@Gustav0C",
-    images: ["https://gustavocanales.dev/og-image.png"],
+    images: ["https://gustavo-canales.vercel.app/og-image.png"],
   },
   robots: {
     index: true,
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     google: "add-your-google-verification-code",
   },
   alternates: {
-    canonical: "https://gustavocanales.dev",
+    canonical: "https://gustavo-canales.vercel.app",
   },
 };
 
@@ -92,8 +92,8 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Organization",
               name: "Gustavo Canales",
-              url: "https://gustavocanales.dev",
-              logo: "https://gustavocanales.dev/og-image.png",
+              url: "https://gustavo-canales.vercel.app",
+              logo: "https://gustavo-canales.vercel.app/og-image.png",
               description:
                 "Portafolio profesional de Gustavo Canales - Desarrollador Full Stack",
               sameAs: [
@@ -121,8 +121,8 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Person",
               name: "Gustavo Canales",
-              url: "https://gustavocanales.dev",
-              image: "https://gustavocanales.dev/og-image.png",
+              url: "https://gustavo-canales.vercel.app",
+              image: "https://gustavo-canales.vercel.app/og-image.png",
               jobTitle: "Full Stack Developer",
               email: "gustavocanales58@gmail.com",
               sameAs: [
@@ -155,7 +155,7 @@ export default function RootLayout({
                   "@type": "ListItem",
                   position: 1,
                   name: "Home",
-                  item: "https://gustavocanales.dev/",
+                  item: "https://gustavo-canales.vercel.app/",
                 },
               ],
             }),

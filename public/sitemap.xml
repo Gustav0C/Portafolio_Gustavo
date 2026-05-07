@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://gustavocanales.dev/</loc>
+    <loc>https://gustavo-canales.vercel.app/</loc>
     <lastmod>2026-05-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://gustavocanales.dev/perfil</loc>
+    <loc>https://gustavo-canales.vercel.app/perfil</loc>
     <lastmod>2026-05-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://gustavocanales.dev/proyectos</loc>
+    <loc>https://gustavo-canales.vercel.app/proyectos</loc>
     <lastmod>2026-05-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://gustavocanales.dev/contacto</loc>
+    <loc>https://gustavo-canales.vercel.app/contacto</loc>
     <lastmod>2026-05-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

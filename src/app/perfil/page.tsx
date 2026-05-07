@@ -4,15 +4,17 @@ import styles from "./page.module.css";
 
 export const metadata: Metadata = {
   title: "Perfil | Gustavo Canales - Full Stack Developer",
-  description: "Conoce mi perfil profesional. Desarrollador Full Stack con experiencia en React, Next.js, TypeScript, Python, SQL y herramientas de IA. Habilidades, experiencia y educación.",
+  description:
+    "Conoce mi perfil profesional. Desarrollador Full Stack con experiencia en React, Next.js, TypeScript, Python, SQL y herramientas de IA. Habilidades, experiencia y educación.",
   openGraph: {
     title: "Perfil de Gustavo Canales - Desarrollador Full Stack",
-    description: "Desarrollador profesional con experiencia en frontend, backend y herramientas modernas de desarrollo",
-    url: "https://gustavocanales.dev/perfil",
+    description:
+      "Desarrollador profesional con experiencia en frontend, backend y herramientas modernas de desarrollo",
+    url: "https://gustavo-canales.vercel.app/perfil",
     type: "profile",
   },
   alternates: {
-    canonical: "https://gustavocanales.dev/perfil",
+    canonical: "https://gustavo-canales.vercel.app/perfil",
   },
 };
 
@@ -60,9 +62,10 @@ export default function Perfil() {
           <h1>Gustavo Canales</h1>
           <p className={styles.title}>Desarrollador Full Stack</p>
           <p className={styles.bio}>
-            Profesional con pasión por crear soluciones tecnológicas innovadoras.
-            Especializado en desarrollo web moderno con React, Next.js y herramientas de IA.
-            Siempre en busca de nuevos desafíos y oportunidades de aprendizaje.
+            Profesional con pasión por crear soluciones tecnológicas
+            innovadoras. Especializado en desarrollo web moderno con React,
+            Next.js y herramientas de IA. Siempre en busca de nuevos desafíos y
+            oportunidades de aprendizaje.
           </p>
         </div>
       </div>
@@ -73,41 +76,61 @@ export default function Perfil() {
           <div className={styles.skillCategory}>
             <h3>Frontend</h3>
             <ul className={styles.skills}>
-              {skills.filter(s => s.category === "frontend").map(s => (
-                <li key={s.name} className={styles.skill}>{s.name}</li>
-              ))}
+              {skills
+                .filter((s) => s.category === "frontend")
+                .map((s) => (
+                  <li key={s.name} className={styles.skill}>
+                    {s.name}
+                  </li>
+                ))}
             </ul>
           </div>
           <div className={styles.skillCategory}>
             <h3>Backend</h3>
             <ul className={styles.skills}>
-              {skills.filter(s => s.category === "backend").map(s => (
-                <li key={s.name} className={styles.skill}>{s.name}</li>
-              ))}
+              {skills
+                .filter((s) => s.category === "backend")
+                .map((s) => (
+                  <li key={s.name} className={styles.skill}>
+                    {s.name}
+                  </li>
+                ))}
             </ul>
           </div>
           <div className={styles.skillCategory}>
             <h3>Database</h3>
             <ul className={styles.skills}>
-              {skills.filter(s => s.category === "database").map(s => (
-                <li key={s.name} className={styles.skill}>{s.name}</li>
-              ))}
+              {skills
+                .filter((s) => s.category === "database")
+                .map((s) => (
+                  <li key={s.name} className={styles.skill}>
+                    {s.name}
+                  </li>
+                ))}
             </ul>
           </div>
           <div className={styles.skillCategory}>
             <h3>DevOps & Tools</h3>
             <ul className={styles.skills}>
-              {skills.filter(s => s.category === "tools").map(s => (
-                <li key={s.name} className={styles.skill}>{s.name}</li>
-              ))}
+              {skills
+                .filter((s) => s.category === "tools")
+                .map((s) => (
+                  <li key={s.name} className={styles.skill}>
+                    {s.name}
+                  </li>
+                ))}
             </ul>
           </div>
           <div className={styles.skillCategory}>
             <h3>IA & Agentes</h3>
             <ul className={styles.skills}>
-              {skills.filter(s => s.category === "ai").map(s => (
-                <li key={s.name} className={styles.skill}>{s.name}</li>
-              ))}
+              {skills
+                .filter((s) => s.category === "ai")
+                .map((s) => (
+                  <li key={s.name} className={styles.skill}>
+                    {s.name}
+                  </li>
+                ))}
             </ul>
           </div>
         </div>
@@ -120,10 +143,13 @@ export default function Perfil() {
             <div className={styles.timelineDate}>2024 - Presente</div>
             <div className={styles.timelineContent}>
               <h3>Desarrollador Full Stack</h3>
-              <p className={styles.timelineCompany}>Proyectos Personales & Freelance</p>
+              <p className={styles.timelineCompany}>
+                Proyectos Personales & Freelance
+              </p>
               <p className={styles.timelineDescription}>
-                Desarrollo de aplicaciones web modernas utilizando React, Next.js, TypeScript.
-                Implementación de herramientas de IA para optimización de workflows.
+                Desarrollo de aplicaciones web modernas utilizando React,
+                Next.js, TypeScript. Implementación de herramientas de IA para
+                optimización de workflows.
               </p>
             </div>
           </div>
@@ -133,8 +159,8 @@ export default function Perfil() {
               <h3>Desarrollador Web</h3>
               <p className={styles.timelineCompany}>Desarrollo Web</p>
               <p className={styles.timelineDescription}>
-                Creación de sitios web y aplicaciones interactivas.
-                Tecnologías: JavaScript, React, Node.js.
+                Creación de sitios web y aplicaciones interactivas. Tecnologías:
+                JavaScript, React, Node.js.
               </p>
             </div>
           </div>
@@ -148,7 +174,9 @@ export default function Perfil() {
             <div className={styles.timelineDate}>2024 - Presente</div>
             <div className={styles.timelineContent}>
               <h3>Carrera de Tecnología</h3>
-              <p className={styles.timelineCompany}>Formación en Desarrollo de Software</p>
+              <p className={styles.timelineCompany}>
+                Formación en Desarrollo de Software
+              </p>
               <p className={styles.timelineDescription}>
                 Estudios en desarrollo de aplicaciones y sistemas tecnológicos.
               </p>
