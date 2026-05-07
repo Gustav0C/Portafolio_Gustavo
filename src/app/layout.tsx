@@ -4,11 +4,14 @@ import Link from "next/link";
 import styles from "./layout.module.css";
 import ThemeToggle from "@/components/ThemeToggle";
 import PageTransition from "@/components/PageTransition";
+import NavLinks from "@/components/NavLinks";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://gustavocanales.dev"),
-  title: "Gustavo Canales | Desarrollador Full Stack | React, Next.js, TypeScript",
-  description: "Portafolio profesional de Gustavo Canales - Desarrollador Full Stack con experiencia en React, Next.js, TypeScript, Python y herramientas de IA. Especializado en arquitectura web moderna.",
+  title:
+    "Gustavo Canales | Desarrollador Full Stack | React, Next.js, TypeScript",
+  description:
+    "Portafolio profesional de Gustavo Canales - Desarrollador Full Stack con experiencia en React, Next.js, TypeScript, Python y herramientas de IA. Especializado en arquitectura web moderna.",
   keywords: [
     "desarrollador",
     "full stack",
@@ -28,7 +31,8 @@ export const metadata: Metadata = {
   publisher: "Gustavo Canales",
   openGraph: {
     title: "Gustavo Canales | Desarrollador Full Stack",
-    description: "Portafolio profesional - Desarrollador Full Stack especializado en React, Next.js, TypeScript y herramientas de IA",
+    description:
+      "Portafolio profesional - Desarrollador Full Stack especializado en React, Next.js, TypeScript y herramientas de IA",
     type: "website",
     locale: "es_AR",
     url: "https://gustavocanales.dev",
@@ -75,8 +79,11 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link href="https://api.fontshare.com/v2/css?f[]=berkeley-mono@200,300,400,500,600,700,800" rel="stylesheet" />
-        
+        <link
+          href="https://api.fontshare.com/v2/css?f[]=berkeley-mono@200,300,400,500,600,700,800"
+          rel="stylesheet"
+        />
+
         {/* Organization Schema - JSON-LD */}
         <script
           type="application/ld+json"
@@ -87,7 +94,8 @@ export default function RootLayout({
               name: "Gustavo Canales",
               url: "https://gustavocanales.dev",
               logo: "https://gustavocanales.dev/og-image.png",
-              description: "Portafolio profesional de Gustavo Canales - Desarrollador Full Stack",
+              description:
+                "Portafolio profesional de Gustavo Canales - Desarrollador Full Stack",
               sameAs: [
                 "https://github.com/Gustav0C",
                 "https://www.linkedin.com/in/gscp/",
@@ -163,28 +171,7 @@ export default function RootLayout({
                 Gscp
               </Link>
               <div className={styles.navRight}>
-                <ul className={styles.navLinks}>
-                  <li>
-                    <Link href="/" className={styles.navLink}>
-                      Home
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/perfil" className={styles.navLink}>
-                      Perfil
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/proyectos" className={styles.navLink}>
-                      Proyectos
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/contacto" className={styles.navLink}>
-                      Contacto
-                    </Link>
-                  </li>
-                </ul>
+                <NavLinks />
                 <ThemeToggle />
               </div>
             </div>
@@ -192,9 +179,7 @@ export default function RootLayout({
 
           {/* Main Content */}
           <main className={styles.main}>
-            <PageTransition>
-              {children}
-            </PageTransition>
+            <PageTransition>{children}</PageTransition>
           </main>
 
           {/* Footer */}
@@ -225,7 +210,10 @@ export default function RootLayout({
                   </a>
                 </li>
                 <li>
-                  <a href="mailto:gustavocanales58@gmail.com" className={styles.footerLink}>
+                  <a
+                    href="mailto:gustavocanales58@gmail.com"
+                    className={styles.footerLink}
+                  >
                     Email
                   </a>
                 </li>
