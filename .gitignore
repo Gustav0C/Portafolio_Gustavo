@@ -46,3 +46,7 @@ next-env.d.ts
 # opencode agents (local configuration)
 .agents/
 skills-lock.json
+# Local Pi runtime state
+.atl/
+.pi/
+.pi-lens/

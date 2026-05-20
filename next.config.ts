@@ -28,6 +28,16 @@ const nextConfig: NextConfig = {
         hostname: "user-images.githubusercontent.com",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "camo.githubusercontent.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com",
+        pathname: "/**",
+      },
     ],
   },
   async headers() {
@@ -43,7 +53,7 @@ const nextConfig: NextConfig = {
               "font-src 'self' https://api.fontshare.com https://fonts.googleapis.com https://fonts.gstatic.com data:",
               scriptSrc,
               "style-src 'self' 'unsafe-inline' https://api.fontshare.com",
-              "connect-src 'self' https://api.github.com",
+              "connect-src 'self' https://api.github.com https://raw.githubusercontent.com",
               "frame-ancestors 'none'",
               "form-action 'self'",
             ].join("; "),
