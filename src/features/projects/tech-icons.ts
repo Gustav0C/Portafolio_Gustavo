@@ -1,0 +1,62 @@
+import {
+	Box,
+	Cloud,
+	Code,
+	Cog,
+	Database,
+	FileCode,
+	Layers,
+	Package,
+	Server,
+	Smartphone,
+	Terminal,
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+
+const techIcons: Record<string, LucideIcon> = {
+	React: Code,
+	Vue: Box,
+	Angular: Code,
+	Svelte: Code,
+	JavaScript: FileCode,
+	HTML: FileCode,
+	CSS: FileCode,
+	Tailwind: Layers,
+	Nodejs: Server,
+	Express: Server,
+	Python: Terminal,
+	Django: Terminal,
+	Flask: Terminal,
+	Ruby: Terminal,
+	Rails: Terminal,
+	Go: Terminal,
+	Rust: Terminal,
+	SQL: Database,
+	PostgreSQL: Database,
+	MySQL: Database,
+	MongoDB: Database,
+	Redis: Database,
+	Docker: Package,
+	Kubernetes: Box,
+	AWS: Cloud,
+	GCP: Cloud,
+	Azure: Cloud,
+	Vercel: Cloud,
+	ReactNative: Smartphone,
+	Flutter: Smartphone,
+	Swift: Smartphone,
+	Kotlin: Smartphone,
+	Git: Terminal,
+	GraphQL: Database,
+	REST: Server,
+	Webpack: Cog,
+	Vite: Terminal,
+	ESLint: Code,
+	Prettier: Code,
+	TypeScript: FileCode,
+};
+
+export const getTechIcon = (tech: string): LucideIcon => {
+	const key = tech.replace(/[^a-zA-Z]/g, "");
+	return techIcons[key] || Code;
+};

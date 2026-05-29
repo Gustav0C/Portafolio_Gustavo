@@ -1,304 +1,18 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import { ExternalLink, Gauge, Link, Plus, Trash2, Code } from "lucide-react";
 import styles from "./page.module.css";
+import type { Project } from "@/features/projects/types";
+import { getTechIcon } from "@/features/projects/tech-icons";
 import {
-	ExternalLink,
-	Trash2,
-	Plus,
-	Code,
-	Database,
-	Server,
-	Smartphone,
-	Cloud,
-	Terminal,
-	Box,
-	Cog,
-	FileCode,
-	Layers,
-	Gauge,
-	Package,
-	Link,
-} from "lucide-react";
-import type { LucideIcon } from "lucide-react";
-
-interface Project {
-	id: string;
-	githubUrl: string;
-	title: string;
-	description: string;
-	image: string;
-	technologies: string[];
-	stars: number;
-	demoUrl?: string;
-}
-
-// Tech to Icon mapping
-const techIcons: Record<string, LucideIcon> = {
-	React: Code,
-	Vue: Box,
-	Angular: Code,
-	Svelte: Code,
-	JavaScript: FileCode,
-	HTML: FileCode,
-	CSS: FileCode,
-	Tailwind: Layers,
-	Nodejs: Server,
-	Express: Server,
-	Python: Terminal,
-	Django: Terminal,
-	Flask: Terminal,
-	Ruby: Terminal,
-	Rails: Terminal,
-	Go: Terminal,
-	Rust: Terminal,
-	SQL: Database,
-	PostgreSQL: Database,
-	MySQL: Database,
-	MongoDB: Database,
-	Redis: Database,
-	Docker: Package,
-	Kubernetes: Box,
-	AWS: Cloud,
-	GCP: Cloud,
-	Azure: Cloud,
-	Vercel: Cloud,
-	ReactNative: Smartphone,
-	Flutter: Smartphone,
-	Swift: Smartphone,
-	Kotlin: Smartphone,
-	Git: Terminal,
-	GraphQL: Database,
-	REST: Server,
-	Webpack: Cog,
-	Vite: Terminal,
-	ESLint: Code,
-	Prettier: Code,
-	TypeScript: FileCode,
-};
-
-const getTechIcon = (tech: string): LucideIcon => {
-	const key = tech.replace(/[^a-zA-Z]/g, "");
-	return techIcons[key] || Code;
-};
-
-const normalizeReadmeImageUrl = (
-	owner: string,
-	repo: string,
-	defaultBranch: string,
-	imageUrl: string,
-) => {
-	if (!imageUrl) return "";
-	if (/^https?:\/\//i.test(imageUrl)) return imageUrl;
-	if (imageUrl.startsWith("//")) return `https:${imageUrl}`;
-
-	const base = `https://raw.githubusercontent.com/${owner}/${repo}/${defaultBranch}/`;
-	if (imageUrl.startsWith("/")) return `${base}${imageUrl.slice(1)}`;
-
-	try {
-		return new URL(imageUrl, base).toString();
-	} catch {
-		return imageUrl;
-	}
-};
-
-// Fetch README and extract image + technologies
-const fetchReadmeData = async (
-	owner: string,
-	repo: string,
-	defaultBranch = "main",
-) => {
-	const readmeUrls = [
-		`https://api.github.com/repos/${owner}/${repo}/readme`,
-		`https://api.github.com/repos/${owner}/${repo}/contents/README.md`,
-		`https://api.github.com/repos/${owner}/${repo}/contents/README.md?ref=main`,
-		`https://api.github.com/repos/${owner}/${repo}/contents/README.md?ref=master`,
-	];
-
-	let readmeContent = "";
-	let imageUrl = "";
-	let technologies: string[] = [];
-
-	for (const url of readmeUrls) {
-		try {
-			const response = await fetch(url);
-			if (response.ok) {
-				const data = await response.json();
-				// GitHub API returns content in base64
-				if (data.content) {
-					readmeContent = atob(data.content);
-				} else if (data.download_url) {
-					const rawResponse = await fetch(data.download_url);
-					readmeContent = await rawResponse.text();
-				}
-				break;
-			}
-		} catch {
-			continue;
-		}
-	}
-
-	// Find image with alt="Portafolioimage"
-	const imgMatch = readmeContent.match(
-		/<img[^>]*alt=["']Portafolioimage["'][^>]*src=["']([^"']+)["']/i,
-	);
-	if (imgMatch) {
-		imageUrl = imgMatch[1];
-	} else {
-		// Try to find any project image
-		const anyImgMatch = readmeContent.match(
-			/<img[^>]*src=["']([^"']+(?:png|jpg|jpeg|gif|webp)[^"']*)["']/i,
-		);
-		if (anyImgMatch) {
-			imageUrl = anyImgMatch[1];
-		}
-	}
-
-	if (imageUrl) {
-		imageUrl = normalizeReadmeImageUrl(owner, repo, defaultBranch, imageUrl);
-	}
-
-	// Extract technologies from README
-	// Look for common patterns: tech stack, technologies, etc.
-	const techPatterns = [
-		/##\s*(?:Tech|Technologies|Tech Stack|Tecnologias)[^#]*/i,
-		/###\s*(?:Tech|Technologies|Tech Stack|Tecnologias)[^#]*/i,
-		/\[!NOTE\][^\n]*\n.*(?:tech|technologies).*/i,
-	];
-
-	for (const pattern of techPatterns) {
-		const match = readmeContent.match(pattern);
-		if (match) {
-			const techSection = match[0];
-			// Extract words that look like technologies
-			const words = techSection.match(/([A-Z][a-zA-Z]*\.?)/g) || [];
-			const commonTechs = [
-				"React",
-				"Nextjs",
-				"TypeScript",
-				"JavaScript",
-				"Python",
-				"Nodejs",
-				"Express",
-				"PostgreSQL",
-				"MongoDB",
-				"Docker",
-				"AWS",
-				"Vercel",
-				"Tailwind",
-				"HTML",
-				"CSS",
-				"Git",
-				"GraphQL",
-				"REST",
-				"API",
-				"Vite",
-				"ESLint",
-			];
-			technologies = words
-				.map((w) => w.replace(/\.$/, ""))
-				.filter((w) => commonTechs.includes(w) || w.length > 2)
-				.slice(0, 6);
-			break;
-		}
-	}
-
-	// If no technologies found, try to extract from topics or infer from common patterns
-	if (technologies.length === 0) {
-		// Common tech detection in content
-		const allTechs = [
-			"React",
-			"Next.js",
-			"TypeScript",
-			"JavaScript",
-			"Python",
-			"Node.js",
-			"Express",
-			"PostgreSQL",
-			"MongoDB",
-			"Docker",
-			"AWS",
-			"Vercel",
-			"Tailwind",
-			"HTML",
-			"CSS",
-			"Git",
-			"GraphQL",
-			"REST",
-			"API",
-			"Vite",
-			"ESLint",
-			"Prisma",
-			"SQLite",
-			"Redis",
-			"GCP",
-			"Azure",
-			"Kubernetes",
-			"Firebase",
-			"Supabase",
-		];
-		for (const tech of allTechs) {
-			const regex = new RegExp(tech, "i");
-			if (regex.test(readmeContent)) {
-				if (!technologies.includes(tech)) {
-					technologies.push(tech);
-				}
-			}
-		}
-		technologies = technologies.slice(0, 6);
-	}
-
-	return { imageUrl, technologies };
-};
-
-const getProjectData = async (
-	owner: string,
-	repoName: string,
-	githubUrl: string,
-) => {
-	// Get repo info
-	const response = await fetch(
-		`https://api.github.com/repos/${owner}/${repoName}`,
-	);
-	if (!response.ok) {
-		if (response.status === 404) throw new Error("Repositorio no encontrado");
-		if (response.status === 403) throw new Error("Límite alcanzado");
-		throw new Error("Error al obtener datos");
-	}
-
-	const data = await response.json();
-
-	// Get README data
-	const { imageUrl, technologies } = await fetchReadmeData(
-		owner,
-		repoName,
-		data.default_branch || "main",
-	);
-
-	// Fallback image
-	const finalImage =
-		imageUrl ||
-		`https://opengraph.github.com/api/og-image?title=${encodeURIComponent(repoName)}&theme=dark`;
-
-	return {
-		id: Date.now().toString(),
-		githubUrl,
-		title: data.name
-			.replace(/-/g, " ")
-			.replace(/\b\w/g, (c: string) => c.toUpperCase()),
-		description: data.description || "Sin descripción",
-		image: finalImage,
-		technologies,
-		stars: data.stargazers_count,
-		demoUrl: data.homepage || undefined,
-	};
-};
-
-const getAdminToken = () => {
-	if (typeof window === "undefined") return "";
-	return localStorage.getItem("adminToken") || "";
-};
+	fetchProjects,
+	getAdminToken,
+	importProjectFromGitHub,
+	persistProjects,
+	validateAdminToken,
+} from "@/features/projects/api";
 
 export default function Proyectos() {
 	const [projects, setProjects] = useState<Project[]>([]);
@@ -311,7 +25,9 @@ export default function Proyectos() {
 	const [showForm, setShowForm] = useState(false);
 	const [adminHint, setAdminHint] = useState(false);
 
-	// Keyboard shortcut: Ctrl + Alt + 9 para mostrar input de admin
+	const githubErrorId = error ? "project-github-error" : undefined;
+	const adminErrorId = adminError ? "project-admin-error" : undefined;
+
 	useEffect(() => {
 		const handleKeyDown = (e: KeyboardEvent) => {
 			if (e.ctrlKey && e.altKey && e.key === "9") {
@@ -325,15 +41,12 @@ export default function Proyectos() {
 	}, []);
 
 	useEffect(() => {
-		const token = getAdminToken();
-		fetch("/api/projects", {
-			headers: token ? { Authorization: `Bearer ${token}` } : undefined,
-		})
-			.then((res) => res.json())
+		fetchProjects()
 			.then((data) => {
-				setProjects(data.projects || []);
-				setIsAdminUser(Boolean(data?.canEdit));
-				if (!data?.canEdit && token) {
+				setProjects(data.projects);
+				setIsAdminUser(data.canEdit);
+
+				if (!data.canEdit && getAdminToken()) {
 					localStorage.removeItem("adminToken");
 				}
 			})
@@ -345,6 +58,7 @@ export default function Proyectos() {
 
 	const handleAddProject = async (e: React.FormEvent) => {
 		e.preventDefault();
+
 		if (!githubUrl.trim()) {
 			setError("Ingresa una URL de GitHub");
 			return;
@@ -359,25 +73,9 @@ export default function Proyectos() {
 		setError("");
 
 		try {
-			const match = githubUrl.match(/github\.com\/([^\/]+)\/([^\/]+)/);
-			if (!match) throw new Error("URL de GitHub inválida");
-
-			const [owner, repoName] = match.slice(1);
-			const newProject = await getProjectData(owner, repoName, githubUrl);
-
+			const newProject = await importProjectFromGitHub(githubUrl);
 			const updatedProjects = [newProject, ...projects];
-			const response = await fetch("/api/projects", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${getAdminToken()}`,
-				},
-				body: JSON.stringify({ projects: updatedProjects }),
-			});
-
-			if (!response.ok) {
-				throw new Error("No se pudo guardar el proyecto");
-			}
+			await persistProjects(updatedProjects);
 
 			setProjects(updatedProjects);
 			setGithubUrl("");
@@ -392,22 +90,11 @@ export default function Proyectos() {
 	const handleDeleteProject = async (id: string) => {
 		setError("");
 		const previousProjects = projects;
-		const updatedProjects = projects.filter((p) => p.id !== id);
+		const updatedProjects = projects.filter((project) => project.id !== id);
 		setProjects(updatedProjects);
 
 		try {
-			const response = await fetch("/api/projects", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${getAdminToken()}`,
-				},
-				body: JSON.stringify({ projects: updatedProjects }),
-			});
-
-			if (!response.ok) {
-				throw new Error();
-			}
+			await persistProjects(updatedProjects);
 		} catch {
 			setProjects(previousProjects);
 			setError("No se pudo eliminar el proyecto");
@@ -416,6 +103,7 @@ export default function Proyectos() {
 
 	const handleLogin = async () => {
 		const password = adminPassword.trim();
+
 		if (!password) {
 			setIsAdminUser(false);
 			setAdminError("Ingresá el token administrativo");
@@ -425,31 +113,19 @@ export default function Proyectos() {
 		setAdminError("");
 
 		try {
-			const response = await fetch("/api/projects", {
-				headers: { Authorization: `Bearer ${password}` },
-			});
-
-			if (!response.ok) {
-				throw new Error();
-			}
-
-			const data = await response.json();
-			if (!data?.canEdit) {
-				localStorage.removeItem("adminToken");
-				setIsAdminUser(false);
-				setAdminError("Token inválido. Verificá e intentá de nuevo.");
-				return;
-			}
-
+			await validateAdminToken(password);
 			localStorage.setItem("adminToken", password);
 			setIsAdminUser(true);
 			setAdminPassword("");
 			setAdminHint(false);
-			setAdminError("");
-		} catch {
+		} catch (err) {
 			localStorage.removeItem("adminToken");
 			setIsAdminUser(false);
-			setAdminError("No se pudo validar el token. Intentá nuevamente.");
+			setAdminError(
+				err instanceof Error
+					? err.message
+					: "No se pudo validar el token. Intentá nuevamente.",
+			);
 		}
 	};
 
@@ -458,7 +134,6 @@ export default function Proyectos() {
 			<div className={styles.header}>
 				<h1 className={styles.title}>Proyectos</h1>
 
-				{/* Admin hint: Ctrl + Alt + 9 */}
 				{adminHint && !isAdminUser && (
 					<div className={styles.adminLogin}>
 						<input
@@ -467,6 +142,8 @@ export default function Proyectos() {
 							className={styles.adminInput}
 							value={adminPassword}
 							onChange={(e) => setAdminPassword(e.target.value)}
+							aria-invalid={Boolean(adminError)}
+							aria-describedby={adminErrorId}
 							onKeyDown={(e) => {
 								if (e.key === "Enter") {
 									e.preventDefault();
@@ -477,12 +154,17 @@ export default function Proyectos() {
 								if (!e.target.value) setAdminHint(false);
 							}}
 						/>
-						{adminError && <p className={styles.error}>{adminError}</p>}
+						{adminError && (
+							<p id="project-admin-error" className={styles.error} role="alert">
+								{adminError}
+							</p>
+						)}
 					</div>
 				)}
 
 				{isAdminUser && (
 					<button
+						type="button"
 						onClick={() => setShowForm(!showForm)}
 						className={styles.addBtn}
 					>
@@ -492,10 +174,14 @@ export default function Proyectos() {
 				)}
 			</div>
 
-			{error && !showForm && <p className={styles.error}>{error}</p>}
+			{error && !showForm && (
+				<p id="project-github-error" className={styles.error} role="alert">
+					{error}
+				</p>
+			)}
 
 			{showForm && isAdminUser && (
-				<form className={styles.form} onSubmit={handleAddProject}>
+				<form className={styles.form} onSubmit={handleAddProject} noValidate>
 					<h2 className={styles.formTitle}>Nuevo Proyecto</h2>
 					<div className={styles.formGroup}>
 						<label htmlFor="githubUrl" className={styles.label}>
@@ -509,9 +195,15 @@ export default function Proyectos() {
 							value={githubUrl}
 							onChange={(e) => setGithubUrl(e.target.value)}
 							disabled={loading}
+							aria-invalid={Boolean(error)}
+							aria-describedby={githubErrorId}
 						/>
 					</div>
-					{error && <p className={styles.error}>{error}</p>}
+					{error && (
+						<p id="project-github-error" className={styles.error} role="alert">
+							{error}
+						</p>
+					)}
 					<button type="submit" className={styles.submitBtn} disabled={loading}>
 						{loading ? "Cargando..." : "Agregar Proyecto"}
 					</button>
@@ -586,6 +278,7 @@ export default function Proyectos() {
 									)}
 									{isAdminUser && (
 										<button
+											type="button"
 											onClick={() => handleDeleteProject(project.id)}
 											className={styles.deleteBtn}
 											title="Eliminar"
