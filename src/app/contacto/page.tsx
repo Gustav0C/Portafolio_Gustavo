@@ -8,10 +8,15 @@ export default function Contacto() {
 		name: "",
 		email: "",
 		message: "",
+		website: "",
 	});
 	const [errors, setErrors] = useState<Record<string, string>>({});
 	const [submitted, setSubmitted] = useState(false);
 	const [sending, setSending] = useState(false);
+	const [serverError, setServerError] = useState<string | null>(null);
+
+	// Guardamos el timestamp de carga para el anti-spam timing check
+	const [loadTimestamp] = useState(() => Date.now());
 
 	const activeErrorCount = Object.values(errors).filter(Boolean).length;
 	const nameErrorId = errors.name ? "contact-name-error" : undefined;
@@ -48,18 +53,37 @@ export default function Contacto() {
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
+		setServerError(null);
 
 		if (!validate()) return;
 
 		setSending(true);
 
-		// Simulate form submission (replace with real service like Formspree)
-		await new Promise((resolve) => setTimeout(resolve, 1000));
+		try {
+			const res = await fetch("/api/contact", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					...formData,
+					loadTimestamp,
+				}),
+			});
 
-		console.log("Form submitted:", formData);
-		setSubmitted(true);
-		setSending(false);
-		setFormData({ name: "", email: "", message: "" });
+			const data = await res.json();
+
+			if (!res.ok) {
+				setServerError(data.error || "Error al enviar el mensaje.");
+				setSending(false);
+				return;
+			}
+
+			setSubmitted(true);
+			setFormData({ name: "", email: "", message: "", website: "" });
+		} catch {
+			setServerError("Error de conexión. Verificá tu internet e intentá de nuevo.");
+		} finally {
+			setSending(false);
+		}
 	};
 
 	const handleChange = (
@@ -85,9 +109,16 @@ export default function Contacto() {
 					<p className={styles.successText}>
 						Gracias por contactarme. Te responderé pronto.
 					</p>
-					<button onClick={() => setSubmitted(false)} className={styles.btn}>
-						Enviar otro mensaje
-					</button>
+					<button
+					onClick={() => {
+						setSubmitted(false);
+						setServerError(null);
+						setErrors({});
+					}}
+					className={styles.btn}
+				>
+					Enviar otro mensaje
+				</button>
 				</div>
 			</div>
 		);
@@ -107,6 +138,28 @@ export default function Contacto() {
 			</p>
 
 			<form className={styles.form} onSubmit={handleSubmit} noValidate>
+				{/* Honeypot: invisible para humanos, los bots lo completan */}
+				<div className={styles.honeypot} aria-hidden="true">
+					<label htmlFor="website">No llenar</label>
+					<input
+						id="website"
+						name="website"
+						type="text"
+						tabIndex={-1}
+						autoComplete="off"
+						value={formData.website || ""}
+						onChange={(e) =>
+							setFormData((prev) => ({ ...prev, website: e.target.value }))
+						}
+					/>
+				</div>
+
+				{serverError && (
+					<div className={styles.serverError} role="alert">
+						{serverError}
+					</div>
+				)}
+
 				<div className={styles.formGroup}>
 					<label htmlFor="name" className={styles.label}>
 						Nombre

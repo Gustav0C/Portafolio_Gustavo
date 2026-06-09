@@ -1,0 +1,207 @@
+/* Terminal-style container */
+.section {
+	background-color: var(--color-surface);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-micro);
+	padding: var(--space-lg);
+	margin-top: var(--space-4xl);
+}
+
+/* Command line — styled like a real terminal */
+.commandLine {
+	font-family: var(--font-mono);
+	font-size: var(--font-size-small);
+	color: var(--color-light);
+	margin-bottom: var(--space-lg);
+	min-height: 1.5em;
+	line-height: var(--line-height-normal);
+}
+
+.commandPlaceholder {
+	visibility: hidden;
+}
+
+.commandPrompt {
+	color: var(--color-success);
+	margin-right: var(--space-sm);
+}
+
+.cursor {
+	display: inline-block;
+	width: 8px;
+	height: 16px;
+	background-color: var(--color-success);
+	margin-left: 2px;
+	animation: blink 1s step-end infinite;
+	vertical-align: text-bottom;
+}
+
+@keyframes blink {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0;
+	}
+}
+
+/* Cards grid — 2 columns on desktop */
+.grid {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: var(--space-lg);
+}
+
+/* Card base — hidden before reveal */
+.card {
+	opacity: 0;
+	transform: translateY(12px);
+	transition:
+		opacity 0.4s ease,
+		transform 0.4s ease;
+	display: flex;
+	flex-direction: column;
+	background-color: var(--color-dark);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-micro);
+	padding: var(--space-lg);
+}
+
+.gridVisible .card {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+.card:hover {
+	border-color: var(--color-border-strong);
+}
+
+.cardTitle {
+	font-family: var(--font-mono);
+	font-size: var(--font-size-body);
+	font-weight: var(--font-weight-bold);
+	color: var(--color-light);
+	margin-bottom: var(--space-sm);
+}
+
+.cardDesc {
+	font-family: var(--font-mono);
+	font-size: var(--font-size-small);
+	color: var(--color-gray);
+	line-height: var(--line-height-normal);
+	margin-bottom: var(--space-md);
+}
+
+/* Technologies — flex-wrapped tags with > prompt */
+.techList {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-xs);
+	margin-bottom: var(--space-lg);
+	flex: 1;
+	align-content: flex-start;
+}
+
+.techTag {
+	font-family: var(--font-mono);
+	font-size: var(--font-size-small);
+	color: var(--color-text-muted);
+	margin-right: var(--space-sm);
+}
+
+.techPrompt {
+	color: var(--color-accent);
+	margin-right: var(--space-xs);
+}
+
+/* Card footer — stars left, links right */
+.cardFooter {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: auto;
+	padding-top: var(--space-sm);
+}
+
+.stars {
+	font-family: var(--font-mono);
+	font-size: var(--font-size-small);
+	color: var(--color-warning);
+}
+
+.cardLinks {
+	display: flex;
+	gap: var(--space-md);
+}
+
+.cardLink {
+	font-family: var(--font-mono);
+	font-size: var(--font-size-small);
+	color: var(--color-gray);
+	text-decoration: none;
+	transition: color var(--transition-fast);
+}
+
+.cardLink:hover {
+	color: var(--color-accent);
+	text-decoration: underline;
+}
+
+/* Section-level CTA */
+.sectionCta {
+	display: inline-flex;
+	align-items: center;
+	margin-top: var(--space-lg);
+	padding: 4px 16px;
+	font-family: var(--font-mono);
+	font-size: var(--font-size-small);
+	font-weight: var(--font-weight-medium);
+	line-height: var(--line-height-relaxed);
+	color: var(--color-light);
+	background-color: transparent;
+	border: 1px solid var(--color-border-strong);
+	border-radius: var(--radius-micro);
+	text-decoration: none;
+	transition:
+		border-color var(--transition-fast),
+		color var(--transition-fast);
+}
+
+.sectionCta:hover {
+	border-color: var(--color-accent);
+	color: var(--color-accent);
+}
+
+/* Empty state */
+.empty {
+	font-family: var(--font-mono);
+	font-size: var(--font-size-small);
+	color: var(--color-gray);
+	margin: 0;
+}
+
+/* Responsive — single column on mobile */
+@media (max-width: 640px) {
+	.grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+	.card {
+		opacity: 1;
+		transform: translateY(0);
+		transition: none;
+	}
+
+	.cursor {
+		animation: none;
+		opacity: 0;
+	}
+
+	.gridVisible .card {
+		transition: none;
+	}
+}

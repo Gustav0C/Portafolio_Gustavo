@@ -84,6 +84,11 @@ export default function RootLayout({
 					href="https://api.fontshare.com/v2/css?f[]=berkeley-mono@200,300,400,500,600,700,800"
 					rel="stylesheet"
 				/>
+				<script
+					dangerouslySetInnerHTML={{
+						__html: `if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; window.onbeforeunload = function () { window.scrollTo(0, 0); };`,
+					}}
+				/>
 
 				{/* Organization Schema - JSON-LD */}
 				<script
@@ -103,7 +108,7 @@ export default function RootLayout({
 							],
 							contactPoint: {
 								"@type": "ContactPoint",
-								email: "gustavocanales58@gmail.com",
+								email: "gcanales58@gmail.com",
 								contactType: "Customer Support",
 							},
 							founder: {
@@ -125,7 +130,7 @@ export default function RootLayout({
 							url: "https://gustavo-canales.vercel.app",
 							image: "https://gustavo-canales.vercel.app/og-image.png",
 							jobTitle: "Full Stack Developer",
-							email: "gustavocanales58@gmail.com",
+							email: "gcanales58@gmail.com",
 							sameAs: [
 								"https://github.com/Gustav0C",
 								"https://www.linkedin.com/in/gscp/",
@@ -164,9 +169,16 @@ export default function RootLayout({
 				/>
 			</head>
 			<body>
+				{/* Skip to content link - WCAG 2.4.1 */}
+				<a
+					href="#main-content"
+					className={styles.skipLink}
+				>
+					Saltar al contenido principal
+				</a>
 				<div className={styles.wrapper}>
 					{/* Navigation */}
-					<nav className={styles.navbar}>
+					<nav className={styles.navbar} aria-label="Navegación principal">
 						<div className={styles.navbarInner}>
 							<Link href="/" className={styles.brand}>
 								Gscp
@@ -180,7 +192,7 @@ export default function RootLayout({
 					</nav>
 
 					{/* Main Content */}
-					<main className={styles.main}>
+					<main id="main-content" className={styles.main}>
 						<PageTransition>{children}</PageTransition>
 					</main>
 
@@ -213,7 +225,7 @@ export default function RootLayout({
 								</li>
 								<li>
 									<a
-										href="mailto:gustavocanales58@gmail.com"
+										href="mailto:gcanales58@gmail.com"
 										className={styles.footerLink}
 									>
 										Email

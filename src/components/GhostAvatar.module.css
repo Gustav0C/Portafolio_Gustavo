@@ -1,0 +1,50 @@
+.ghost {
+	color: #fdfcfc;
+	margin-bottom: var(--space-md);
+	opacity: 0;
+	animation: fadeInUp 0.5s ease-out forwards;
+}
+
+:global([data-theme="light"]) .ghost {
+	color: #201d1d;
+}
+
+.body {
+	/* Inherits color from .ghost */
+}
+
+.eye {
+	color: #201d1d;
+}
+
+:global([data-theme="light"]) .eye {
+	color: #fdfcfc;
+}
+
+.eyeRight {
+	animation: wink 4s ease-in-out infinite;
+	transform-origin: center;
+}
+
+@keyframes fadeInUp {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes wink {
+	0%,
+	90%,
+	100% {
+		transform: scaleY(1);
+	}
+	93%,
+	97% {
+		transform: scaleY(0.05);
+	}
+}

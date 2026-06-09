@@ -1,0 +1,143 @@
+/* Terminal-style container */
+.section {
+	background-color: var(--color-surface);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-micro);
+	padding: var(--space-lg);
+	margin-top: var(--space-4xl);
+}
+
+/* Command line — styled like a real terminal */
+.commandLine {
+	font-family: var(--font-mono);
+	font-size: var(--font-size-small);
+	color: var(--color-light);
+	margin-bottom: var(--space-lg);
+	min-height: 1.5em;
+	line-height: var(--line-height-normal);
+}
+
+.commandPlaceholder {
+	visibility: hidden;
+}
+
+.commandPrompt {
+	color: var(--color-success);
+	margin-right: var(--space-sm);
+}
+
+.cursor {
+	display: inline-block;
+	width: 8px;
+	height: 16px;
+	background-color: var(--color-success);
+	margin-left: 2px;
+	animation: blink 1s step-end infinite;
+	vertical-align: text-bottom;
+}
+
+@keyframes blink {
+	0%,
+	50% {
+		opacity: 1;
+	}
+	51%,
+	100% {
+		opacity: 0;
+	}
+}
+
+/* Content area — hidden before reveal */
+.content {
+	opacity: 0;
+	transform: translateY(12px);
+	transition:
+		opacity 0.4s ease,
+		transform 0.4s ease;
+}
+
+.contentVisible {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+/* Status block */
+.statusBlock {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-xs);
+	margin-bottom: var(--space-lg);
+}
+
+.statusLine {
+	font-family: var(--font-mono);
+	font-size: var(--font-size-small);
+	line-height: var(--line-height-relaxed);
+	display: flex;
+	align-items: center;
+	gap: var(--space-sm);
+}
+
+.statusPrompt {
+	color: var(--color-accent);
+	flex-shrink: 0;
+}
+
+.statusLabel {
+	color: var(--color-accent);
+	width: 12ch;
+	flex-shrink: 0;
+}
+
+.statusValue {
+	color: var(--color-light);
+}
+
+.statusLink {
+	color: var(--color-light);
+	text-decoration: underline;
+	text-underline-offset: 2px;
+	transition: color var(--transition-fast);
+}
+
+.statusLink:hover {
+	color: var(--color-accent);
+}
+
+/* CTA button — matches existing section CTA pattern */
+.cta {
+	display: inline-flex;
+	align-items: center;
+	padding: 4px 16px;
+	font-family: var(--font-mono);
+	font-size: var(--font-size-small);
+	font-weight: var(--font-weight-medium);
+	line-height: var(--line-height-relaxed);
+	color: var(--color-light);
+	background-color: transparent;
+	border: 1px solid var(--color-border-strong);
+	border-radius: var(--radius-micro);
+	text-decoration: none;
+	transition:
+		border-color var(--transition-fast),
+		color var(--transition-fast);
+}
+
+.cta:hover {
+	border-color: var(--color-accent);
+	color: var(--color-accent);
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+	.content {
+		opacity: 1;
+		transform: translateY(0);
+		transition: none;
+	}
+
+	.cursor {
+		animation: none;
+		opacity: 0;
+	}
+}

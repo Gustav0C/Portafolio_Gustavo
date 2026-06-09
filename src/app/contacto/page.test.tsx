@@ -8,6 +8,19 @@ vi.mock("next/navigation", () => ({
 	usePathname: () => "/",
 }));
 
+function mockFetchSuccess() {
+	return vi.spyOn(globalThis, "fetch").mockResolvedValueOnce(
+		new Response(JSON.stringify({ success: true }), {
+			status: 200,
+			headers: { "Content-Type": "application/json" },
+		}),
+	);
+}
+
+afterEach(() => {
+	vi.restoreAllMocks();
+});
+
 describe("Contacto A11y", () => {
 	it("asocia errores con inputs mediante aria-describedby y aria-invalid", async () => {
 		render(<Contacto />);
@@ -40,6 +53,7 @@ describe("Contacto A11y", () => {
 	});
 
 	it("anuncia éxito con role status y aria-live", async () => {
+		mockFetchSuccess();
 		render(<Contacto />);
 
 		// Fill form
@@ -55,8 +69,8 @@ describe("Contacto A11y", () => {
 
 		fireEvent.click(screen.getByRole("button", { name: /Enviar Mensaje/i }));
 
-		// Wait for simulation (1s)
-		await new Promise((r) => setTimeout(r, 1100));
+		// Wait for fetch to resolve
+		await new Promise((r) => setTimeout(r, 100));
 
 		const successMsg = screen.getByText(/¡Mensaje enviado!/i).parentElement;
 		expect(successMsg).toHaveAttribute("role", "status");

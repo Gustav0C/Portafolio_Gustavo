@@ -1,0 +1,85 @@
+.terminal {
+	background-color: var(--color-surface);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-micro);
+	padding: var(--space-lg);
+	margin: var(--space-md) auto;
+	max-width: 450px;
+	font-family: var(--font-mono);
+	font-size: var(--font-size-small);
+	color: var(--color-gray);
+	text-align: left;
+	opacity: 0;
+	animation: fadeInUp 0.5s ease-out 400ms forwards;
+}
+
+/* Live region for screen readers - visually hidden but accessible */
+.liveRegion {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+	.terminal {
+		animation: none;
+		opacity: 1;
+	}
+
+	.cursor {
+		animation: none;
+		opacity: 1;
+	}
+}
+
+.line {
+	margin-bottom: var(--space-xs);
+	min-height: 1.5em;
+}
+
+.line:last-child {
+	margin-bottom: 0;
+}
+
+.prompt {
+	color: var(--color-success);
+	margin-right: var(--space-sm);
+}
+
+.cursor {
+	display: inline-block;
+	width: 8px;
+	height: 16px;
+	background-color: var(--color-success);
+	margin-left: 2px;
+	animation: blink 1s step-end infinite;
+	vertical-align: text-bottom;
+}
+
+@keyframes blink {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0;
+	}
+}
+
+@keyframes fadeInUp {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}

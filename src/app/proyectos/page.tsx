@@ -27,12 +27,18 @@ export default function Proyectos() {
 
 	const githubErrorId = error ? "project-github-error" : undefined;
 	const adminErrorId = adminError ? "project-admin-error" : undefined;
+	const adminHintId = "admin-hint-live";
 
 	useEffect(() => {
 		const handleKeyDown = (e: KeyboardEvent) => {
 			if (e.ctrlKey && e.altKey && e.key === "9") {
 				e.preventDefault();
 				setAdminHint(true);
+				// Announce to screen readers
+				const liveRegion = document.getElementById(adminHintId);
+				if (liveRegion) {
+					liveRegion.textContent = "Modo administrador activado. Ingresá el token para editar proyectos.";
+				}
 			}
 		};
 
@@ -134,33 +140,36 @@ export default function Proyectos() {
 			<div className={styles.header}>
 				<h1 className={styles.title}>Proyectos</h1>
 
-				{adminHint && !isAdminUser && (
-					<div className={styles.adminLogin}>
-						<input
-							type="password"
-							placeholder="Password"
-							className={styles.adminInput}
-							value={adminPassword}
-							onChange={(e) => setAdminPassword(e.target.value)}
-							aria-invalid={Boolean(adminError)}
-							aria-describedby={adminErrorId}
-							onKeyDown={(e) => {
-								if (e.key === "Enter") {
-									e.preventDefault();
-									void handleLogin();
-								}
-							}}
-							onBlur={(e) => {
-								if (!e.target.value) setAdminHint(false);
-							}}
-						/>
-						{adminError && (
-							<p id="project-admin-error" className={styles.error} role="alert">
-								{adminError}
-							</p>
-						)}
-					</div>
-				)}
+			{/* Live region for admin hint announcement */}
+			<div id={adminHintId} aria-live="polite" aria-atomic="true" className={styles.liveRegion} />
+
+			{adminHint && !isAdminUser && (
+				<div className={styles.adminLogin}>
+					<input
+						type="password"
+						placeholder="Password"
+						className={styles.adminInput}
+						value={adminPassword}
+						onChange={(e) => setAdminPassword(e.target.value)}
+						aria-invalid={Boolean(adminError)}
+						aria-describedby={adminErrorId}
+						onKeyDown={(e) => {
+							if (e.key === "Enter") {
+								e.preventDefault();
+								void handleLogin();
+							}
+						}}
+						onBlur={(e) => {
+							if (!e.target.value) setAdminHint(false);
+						}}
+					/>
+					{adminError && (
+						<p id="project-admin-error" className={styles.error} role="alert">
+							{adminError}
+						</p>
+					)}
+				</div>
+			)}
 
 				{isAdminUser && (
 					<button

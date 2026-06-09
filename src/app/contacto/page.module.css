@@ -150,6 +150,27 @@
 	margin-bottom: var(--space-xl);
 }
 
+/* Honeypot: invisible para humanos */
+.honeypot {
+	position: absolute;
+	left: -9999px;
+	opacity: 0;
+	height: 0;
+	overflow: hidden;
+}
+
+/* Server error banner */
+.serverError {
+	background-color: #fef2f2;
+	border: 1px solid var(--color-danger);
+	border-radius: var(--radius-micro);
+	color: var(--color-danger);
+	font-family: var(--font-mono);
+	font-size: var(--font-size-small);
+	margin-bottom: var(--space-md);
+	padding: var(--space-sm) var(--space-md);
+}
+
 /* Responsive */
 @media (max-width: 640px) {
 	.form {
