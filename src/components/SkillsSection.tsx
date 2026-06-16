@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import StackIcon from "tech-stack-icons";
+import TechIcon from "./TechIcon";
 import styles from "./SkillsSection.module.css";
 
 const skillCategories = [
@@ -132,7 +132,7 @@ export default function SkillsSection() {
 							<ul className={styles.skillsList}>
 								{category.skills.map((skill) => (
 									<li key={skill.name} className={styles.skillItem}>
-										<StackIcon
+										<TechIcon
 											name={skill.icon as "react" | "nextjs" | "typescript" | "js" | "html5" | "css3" | "tailwindcss" | "nodejs" | "expressjs" | "python" | "postgresql" | "mongodb" | "redis" | "docker" | "git" | "vercel" | "aws" | "vitejs" | "eslint" | "prettier"}
 											variant="grayscale"
 											className={styles.skillIcon}
@@ -172,7 +172,7 @@ export default function SkillsSection() {
 						<ul className={styles.skillsList}>
 							{category.skills.map((skill) => (
 								<li key={skill.name} className={styles.skillItem}>
-									<StackIcon
+									<TechIcon
 										name={skill.icon as "react" | "nextjs" | "typescript" | "js" | "html5" | "css3" | "tailwindcss" | "nodejs" | "expressjs" | "python" | "postgresql" | "mongodb" | "redis" | "docker" | "git" | "vercel" | "aws" | "vitejs" | "eslint" | "prettier"}
 										variant="grayscale"
 										className={styles.skillIcon}

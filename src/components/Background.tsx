@@ -189,7 +189,10 @@ export function DotPattern({
 			ctx.fill();
 		}
 
-		animationRef.current = requestAnimationFrame(drawRef.current);
+		// Guard: stop rAF loop when tab is hidden
+		if (document.visibilityState === "visible") {
+			animationRef.current = requestAnimationFrame(drawRef.current);
+		}
 	}, [proximity, baseRgb, glowRgb, dotSize, glowIntensity, waveSpeed]);
 
 	useEffect(() => {
@@ -212,6 +215,21 @@ export function DotPattern({
 		startTimeRef.current = Date.now();
 		animationRef.current = requestAnimationFrame(drawRef.current);
 		return () => {
+			if (animationRef.current) cancelAnimationFrame(animationRef.current);
+		};
+	}, [draw]);
+
+	// Restart rAF loop when tab becomes visible after being hidden
+	useEffect(() => {
+		const handleVisibilityChange = () => {
+			if (document.visibilityState === "visible" && !animationRef.current) {
+				animationRef.current = requestAnimationFrame(drawRef.current);
+			}
+		};
+
+		document.addEventListener("visibilitychange", handleVisibilityChange);
+		return () => {
+			document.removeEventListener("visibilitychange", handleVisibilityChange);
 			if (animationRef.current) cancelAnimationFrame(animationRef.current);
 		};
 	}, [draw]);

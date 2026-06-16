@@ -53,9 +53,9 @@ const nextConfig: NextConfig = {
 						value: [
 							"default-src 'self'",
 							"img-src 'self' https: data:",
-							"font-src 'self' https://api.fontshare.com https://fonts.googleapis.com https://fonts.gstatic.com data:",
+							"font-src 'self' data:",
 							scriptSrc,
-							"style-src 'self' 'unsafe-inline' https://api.fontshare.com",
+							"style-src 'self' 'unsafe-inline'",
 							"connect-src 'self' https://api.github.com https://raw.githubusercontent.com",
 							"frame-ancestors 'none'",
 							"form-action 'self'",

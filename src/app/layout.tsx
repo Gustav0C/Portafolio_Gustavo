@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 import Link from "next/link";
 import styles from "./layout.module.css";
@@ -6,6 +7,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 import PageTransition from "@/components/PageTransition";
 import NavLinks from "@/components/NavLinks";
 import MobileNav from "@/components/MobileNav";
+import berkeleyMono from "./fonts";
 
 export const metadata: Metadata = {
 	metadataBase: new URL("https://gustavo-canales.vercel.app"),
@@ -76,26 +78,28 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="es" suppressHydrationWarning>
+		<html lang="es" suppressHydrationWarning data-scroll-behavior="smooth" className={berkeleyMono.variable}>
 			<head>
 				<link rel="icon" href="/favicon.ico" />
 				<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-				<link
-					href="https://api.fontshare.com/v2/css?f[]=berkeley-mono@200,300,400,500,600,700,800"
-					rel="stylesheet"
-				/>
-				<script
+			</head>
+			<body>
+				{/* Scroll Restoration */}
+				<Script
+					id="scroll-restoration"
 					dangerouslySetInnerHTML={{
 						__html: `if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; window.onbeforeunload = function () { window.scrollTo(0, 0); };`,
 					}}
+					strategy="beforeInteractive"
 				/>
 
 				{/* Organization Schema - JSON-LD */}
-				<script
+				<Script
+					id="organization-schema"
 					type="application/ld+json"
 					dangerouslySetInnerHTML={{
 						__html: JSON.stringify({
-							"@context": "https://schema.org",
+							"@context": "schema.org",
 							"@type": "Organization",
 							name: "Gustavo Canales",
 							url: "https://gustavo-canales.vercel.app",
@@ -117,14 +121,16 @@ export default function RootLayout({
 							},
 						}),
 					}}
+					strategy="afterInteractive"
 				/>
 
 				{/* Person Schema - JSON-LD */}
-				<script
+				<Script
+					id="person-schema"
 					type="application/ld+json"
 					dangerouslySetInnerHTML={{
 						__html: JSON.stringify({
-							"@context": "https://schema.org",
+							"@context": "schema.org",
 							"@type": "Person",
 							name: "Gustavo Canales",
 							url: "https://gustavo-canales.vercel.app",
@@ -147,14 +153,16 @@ export default function RootLayout({
 							],
 						}),
 					}}
+					strategy="afterInteractive"
 				/>
 
 				{/* Breadcrumb Schema - JSON-LD */}
-				<script
+				<Script
+					id="breadcrumb-schema"
 					type="application/ld+json"
 					dangerouslySetInnerHTML={{
 						__html: JSON.stringify({
-							"@context": "https://schema.org",
+							"@context": "schema.org",
 							"@type": "BreadcrumbList",
 							itemListElement: [
 								{
@@ -166,9 +174,8 @@ export default function RootLayout({
 							],
 						}),
 					}}
+					strategy="afterInteractive"
 				/>
-			</head>
-			<body>
 				{/* Skip to content link - WCAG 2.4.1 */}
 				<a
 					href="#main-content"

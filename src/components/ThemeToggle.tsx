@@ -7,19 +7,23 @@ import styles from "./ThemeToggle.module.css";
 type Theme = "dark" | "light";
 
 export default function ThemeToggle() {
-  const getInitialTheme = (): Theme => {
-    if (typeof window === "undefined") return "dark";
+  // Always start with "dark" to match SSR output
+  const [theme, setTheme] = useState<Theme>("dark");
 
-    const saved = localStorage.getItem("theme") as Theme | null;
-    if (saved === "dark" || saved === "light") return saved;
-
-    return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
-  };
-
-  const [theme, setTheme] = useState<Theme>(getInitialTheme);
+  // Read saved theme only after hydration
   useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-  }, [theme]);
+    const saved = localStorage.getItem("theme") as Theme | null;
+    const initial: Theme =
+      saved === "dark" || saved === "light"
+        ? saved
+        : window.matchMedia("(prefers-color-scheme: light)").matches
+          ? "light"
+          : "dark";
+
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setTheme(initial);
+    document.documentElement.setAttribute("data-theme", initial);
+  }, []);
 
   const toggleTheme = () => {
     const newTheme = theme === "dark" ? "light" : "dark";

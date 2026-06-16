@@ -1,19 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
-import { motion } from "framer-motion";
 import styles from "./PageTransition.module.css";
 
 export default function PageTransition({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [reducedMotion, setReducedMotion] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const [shouldAnimate, setShouldAnimate] = useState(false);
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setMounted(true);
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setReducedMotion(mediaQuery.matches);
 
     const handler = (event: MediaQueryListEvent) => {
@@ -24,26 +23,32 @@ export default function PageTransition({ children }: { children: React.ReactNode
     return () => mediaQuery.removeEventListener("change", handler);
   }, []);
 
-  // During SSR or before mount, render children without animation to avoid hydration mismatch
-  if (!mounted) {
-    return <div className={styles.container}>{children}</div>;
-  }
+  // After first render, enable animation for future route changes
+  useEffect(() => {
+    // Skip animation on the very first mount
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
 
-  // Simple fade-in only - no exit animation
-  // Respect reduced motion - show instantly if enabled
+    // Animate on route changes
+    setShouldAnimate(false);
+    requestAnimationFrame(() => {
+      setShouldAnimate(true);
+    });
+  }, [pathname]);
+
+  // Respect reduced motion — show instantly if enabled
   if (reducedMotion) {
     return <div className={styles.container}>{children}</div>;
   }
 
   return (
-    <motion.div
+    <div
       key={pathname}
-      className={styles.container}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.08, ease: "easeOut" }}
+      className={`${styles.container} ${shouldAnimate ? styles.fadeIn : ""}`}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }

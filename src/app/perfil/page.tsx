@@ -55,6 +55,7 @@ export default function Perfil() {
             src="/perfil.webp"
             alt="Gustavo Canales - Desarrollador Full Stack"
             fill
+            sizes="140px"
             className={styles.avatarImage}
           />
         </div>

@@ -1,14 +1,16 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import GhostAvatar from "@/components/GhostAvatar";
 import Background from "@/components/Background";
 import HomeTerminal from "@/components/HomeTerminal";
-import ServicesSection from "@/components/ServicesSection";
-import SkillsSection from "@/components/SkillsSection";
-import FeaturedProjects from "@/components/FeaturedProjects";
-import StatusSection from "@/components/StatusSection";
 import Reveal from "@/components/Reveal";
 import styles from "./page.module.css";
+
+const ServicesSection = dynamic(() => import("@/components/ServicesSection"));
+const SkillsSection = dynamic(() => import("@/components/SkillsSection"));
+const FeaturedProjects = dynamic(() => import("@/components/FeaturedProjects"));
+const StatusSection = dynamic(() => import("@/components/StatusSection"));
 
 export const metadata: Metadata = {
 	title: "Inicio | Gustavo Canales - Desarrollador Full Stack",
