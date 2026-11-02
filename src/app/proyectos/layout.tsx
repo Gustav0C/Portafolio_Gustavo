@@ -8,11 +8,11 @@ export const metadata: Metadata = {
     title: "Proyectos - Gustavo Canales",
     description:
       "Portafolio de proyectos desarrollados con React, Next.js, TypeScript, Python y herramientas modernas",
-    url: "https://gustavo-canales.vercel.app/proyectos",
+    url: "https://gcanales.is-a.dev/proyectos",
     type: "website",
   },
   alternates: {
-    canonical: "https://gustavo-canales.vercel.app/proyectos",
+    canonical: "https://gcanales.is-a.dev/proyectos",
   },
 };
 
@@ -35,13 +35,13 @@ export default function ProyectosLayout({
                 "@type": "ListItem",
                 position: 1,
                 name: "Home",
-                item: "https://gustavo-canales.vercel.app/",
+                item: "https://gcanales.is-a.dev/",
               },
               {
                 "@type": "ListItem",
                 position: 2,
                 name: "Proyectos",
-                item: "https://gustavo-canales.vercel.app/proyectos",
+                item: "https://gcanales.is-a.dev/proyectos",
               },
             ],
           }),

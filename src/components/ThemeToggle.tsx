@@ -39,15 +39,13 @@ export default function ThemeToggle() {
       aria-label={`Cambiar a modo ${theme === "dark" ? "claro" : "oscuro"}`}
       title={`Cambiar a modo ${theme === "dark" ? "claro" : "oscuro"}`}
     >
-      <span className={styles.iconWrapper}>
-        {theme === "dark" ? (
-          <Moon className={styles.icon} size={18} />
-        ) : (
-          <Sun className={styles.icon} size={18} />
-        )}
-      </span>
-      <span className={styles.track}>
-        <span className={`${styles.thumb} ${theme === "light" ? styles.thumbLight : ""}`} />
+      {theme === "dark" ? (
+        <Moon className={styles.icon} size={14} aria-hidden="true" />
+      ) : (
+        <Sun className={styles.icon} size={14} aria-hidden="true" />
+      )}
+      <span className={styles.themeLabel} aria-hidden="true">
+        {theme === "dark" ? "dark" : "light"}
       </span>
     </button>
   );

@@ -1,7 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
-import GhostAvatar from "@/components/GhostAvatar";
 import Background from "@/components/Background";
 import HomeTerminal from "@/components/HomeTerminal";
 import Reveal from "@/components/Reveal";
@@ -20,11 +19,11 @@ export const metadata: Metadata = {
 		title: "Gustavo Canales - Desarrollador Full Stack",
 		description:
 			"Portafolio profesional con proyectos en React, Next.js y tecnologías web modernas",
-		url: "https://gustavo-canales.vercel.app",
+		url: "https://gcanales.is-a.dev",
 		type: "website",
 	},
 	alternates: {
-		canonical: "https://gustavo-canales.vercel.app/",
+		canonical: "https://gcanales.is-a.dev/",
 	},
 };
 
@@ -33,25 +32,50 @@ export default function Home() {
 		<>
 			<Background className={styles.background} />
 			<div className={styles.content}>
-				<div className={styles.hero}>
-					<GhostAvatar size={120} />
-					<h1 className={styles.title}>Gustavo Canales</h1>
-					<p className={styles.subtitle}>
-						Desarrollador Full Stack con pasión por crear soluciones elegantes y
-						experiencias de usuario excepcionales.
-					</p>
+				<section className={styles.hero} aria-labelledby="hero-title">
+					<div className={styles.heroMain}>
+						<div className={styles.statusBadge}>
+							<span className={styles.statusDot} aria-hidden="true" />
+							<span className={styles.statusText}>
+								DISPONIBLE PARA PROYECTOS · ICA, PERÚ
+							</span>
+						</div>
 
-					<HomeTerminal />
+						<h1 id="hero-title" className={styles.title}>
+							Gustavo Canales
+						</h1>
 
-					<div className={styles.cta}>
-						<Link href="/proyectos" className={styles.btnPrimary}>
-							Ver Proyectos
-						</Link>
-						<Link href="/contacto" className={styles.btnAccent}>
-							Contactar
-						</Link>
+						<p className={styles.role}>
+							Full Stack Engineer &amp; AI Integrator
+						</p>
+
+						<p className={styles.pitch}>
+							Desarrollo aplicaciones web de alto rendimiento con React, Next.js y
+							TypeScript, e integro agentes autónomos de IA y APIs robustas. Foco
+							en arquitectura limpia, tipado estricto y ejecución sin rodeos.
+						</p>
+
+						<div className={styles.cta}>
+							<Link href="/proyectos" className={styles.btnPrimary}>
+								Ver Proyectos
+							</Link>
+							<Link href="/contacto" className={styles.btnSecondary}>
+								Contactar
+							</Link>
+						</div>
+
+						<div className={styles.metaRow}>
+							<span className={styles.metaLabel}>core_stack:</span>
+							<span className={styles.metaStack}>
+								next.js · react · typescript · python · ai
+							</span>
+						</div>
 					</div>
-				</div>
+
+					<div className={styles.heroVisual}>
+						<HomeTerminal />
+					</div>
+				</section>
 
 				<Reveal>
 					<ServicesSection />

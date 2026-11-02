@@ -11,10 +11,10 @@ type NavLinksProps = {
 };
 
 const links = [
-	{ href: "/", label: "Home" },
-	{ href: "/perfil", label: "Perfil" },
-	{ href: "/proyectos", label: "Proyectos" },
-	{ href: "/contacto", label: "Contacto" },
+	{ href: "/", label: "Home", index: "01" },
+	{ href: "/perfil", label: "Perfil", index: "02" },
+	{ href: "/proyectos", label: "Proyectos", index: "03" },
+	{ href: "/contacto", label: "Contacto", index: "04" },
 ];
 
 export default function NavLinks({
@@ -26,7 +26,7 @@ export default function NavLinks({
 
 	return (
 		<ul id={id} className={`${styles.navLinks} ${className}`.trim()}>
-			{links.map(({ href, label }) => {
+			{links.map(({ href, label, index }) => {
 				const isActive =
 					href === "/" ? pathname === "/" : pathname.startsWith(href);
 				return (
@@ -36,7 +36,10 @@ export default function NavLinks({
 							className={`${styles.navLink} ${isActive ? styles.navLinkActive : ""}`}
 							onClick={onNavigate}
 						>
-							{label}
+							<span className={styles.navIndex} aria-hidden="true">
+								{index}
+							</span>
+							<span className={styles.navLabel}>{label}</span>
 						</Link>
 					</li>
 				);

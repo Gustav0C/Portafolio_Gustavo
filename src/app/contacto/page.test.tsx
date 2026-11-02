@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi, afterEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import Contacto from "./page";
 

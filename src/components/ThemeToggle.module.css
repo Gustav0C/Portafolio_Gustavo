@@ -1,85 +1,44 @@
 .toggle {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: var(--space-sm);
-  background: none;
-  border: 1px solid var(--color-border);
-  border-radius: 50px;
-  padding: 4px;
+  gap: 6px;
+  background-color: var(--color-dark);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-micro);
+  padding: 4px 8px;
+  height: 32px;
   cursor: pointer;
-  transition: all var(--transition-fast);
-  background-color: var(--color-surface);
+  color: var(--color-light);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-medium);
+  transition:
+    border-color var(--transition-fast),
+    background-color var(--transition-fast),
+    color var(--transition-fast);
 }
 
 .toggle:hover {
-  border-color: var(--color-border-strong);
-}
-
-.iconWrapper {
-  position: relative;
-  width: 18px;
-  height: 18px;
+  border-color: var(--color-light);
+  background-color: var(--color-surface);
 }
 
 .icon {
-  position: absolute;
-  top: 0;
-  left: 0;
-  transition: all var(--transition-fast);
+  color: var(--color-accent);
+  flex-shrink: 0;
+}
+
+.themeLabel {
   color: var(--color-text-muted);
+  text-transform: lowercase;
+  letter-spacing: 0.04em;
 }
 
-.moon {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.moon.active {
-  opacity: 0;
-  transform: scale(0) rotate(-90deg);
-}
-
-.sun {
-  opacity: 0;
-  transform: scale(0) rotate(90deg);
-}
-
-.sun.active {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.track {
-  width: 36px;
-  height: 20px;
-  background-color: var(--color-dark);
-  border-radius: 50px;
-  position: relative;
-  transition: background-color var(--transition-fast);
-}
-
-.thumb {
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 16px;
-  height: 16px;
-  background-color: var(--color-light);
-  border-radius: 50%;
-  transition: all var(--transition-fast);
-}
-
-.thumbLight {
-  left: 18px;
-  background-color: var(--color-warning);
-}
-
-/* Focus state */
 .toggle:focus {
   outline: none;
-  border-color: var(--color-accent);
 }
 
 .toggle:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-accent);
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
 }

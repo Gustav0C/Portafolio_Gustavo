@@ -1,0 +1,86 @@
+.container {
+	position: fixed;
+	inset: 0;
+	overflow: hidden;
+	background-color: var(--color-dark);
+	pointer-events: none;
+	z-index: -1;
+}
+
+/* Static base grid */
+.gridBase {
+	position: absolute;
+	inset: 0;
+	background-image:
+		linear-gradient(to right, rgba(253, 252, 252, 0.04) 1px, transparent 1px),
+		linear-gradient(to bottom, rgba(253, 252, 252, 0.04) 1px, transparent 1px);
+	background-size: 40px 40px;
+	background-position: center center;
+	mask-image: radial-gradient(ellipse 95% 75% at 50% 30%, black 35%, transparent 88%);
+	-webkit-mask-image: radial-gradient(ellipse 95% 75% at 50% 30%, black 35%, transparent 88%);
+}
+
+:global([data-theme="light"]) .gridBase {
+	background-image:
+		linear-gradient(to right, rgba(32, 29, 29, 0.05) 1px, transparent 1px),
+		linear-gradient(to bottom, rgba(32, 29, 29, 0.05) 1px, transparent 1px);
+}
+
+/* Ambient cursor glow — positioned div that follows mouse */
+.ambientGlow {
+	position: fixed;
+	width: 600px;
+	height: 600px;
+	border-radius: 50%;
+	background: radial-gradient(
+		circle,
+		rgba(0, 122, 255, 0.2) 0%,
+		rgba(0, 122, 255, 0.08) 35%,
+		transparent 70%
+	);
+	pointer-events: none;
+	will-change: left, top;
+}
+
+:global([data-theme="light"]) .ambientGlow {
+	background: radial-gradient(
+		circle,
+		rgba(0, 122, 255, 0.15) 0%,
+		rgba(0, 122, 255, 0.05) 35%,
+		transparent 70%
+	);
+}
+
+/* Interactive cursor spotlight on grid lines */
+.gridSpotlight {
+	position: absolute;
+	inset: 0;
+	background-image:
+		linear-gradient(to right, rgba(0, 122, 255, 0.45) 1px, transparent 1px),
+		linear-gradient(to bottom, rgba(0, 122, 255, 0.45) 1px, transparent 1px);
+	background-size: 40px 40px;
+	background-position: center center;
+	pointer-events: none;
+}
+
+:global([data-theme="light"]) .gridSpotlight {
+	background-image:
+		linear-gradient(to right, rgba(0, 122, 255, 0.35) 1px, transparent 1px),
+		linear-gradient(to bottom, rgba(0, 122, 255, 0.35) 1px, transparent 1px);
+}
+
+/* Subtle corner vignette */
+.vignette {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background: radial-gradient(ellipse 80% 60% at 50% 50%, transparent 55%, var(--color-dark) 100%);
+	opacity: 0.6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.gridSpotlight,
+	.ambientGlow {
+		display: none;
+	}
+}

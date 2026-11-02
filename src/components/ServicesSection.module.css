@@ -1,171 +1,394 @@
-/* Terminal-style container */
 .section {
-	background-color: var(--color-surface);
-	border: 1px solid var(--color-border);
-	border-radius: var(--radius-micro);
-	padding: var(--space-lg);
 	margin-top: var(--space-4xl);
 }
 
-/* Command line — styled like a real terminal */
-.commandLine {
+.header {
+	margin-bottom: var(--space-2xl);
+}
+
+.sectionTag {
 	font-family: var(--font-mono);
-	font-size: var(--font-size-small);
+	font-size: 0.8125rem;
+	font-weight: var(--font-weight-medium);
+	color: var(--color-accent);
+	letter-spacing: 0.04em;
+	margin-bottom: var(--space-xs);
+}
+
+.sectionTitle {
+	font-family: var(--font-mono);
+	font-size: clamp(1.5rem, 2.8vw, 1.875rem);
+	font-weight: var(--font-weight-bold);
 	color: var(--color-light);
-	margin-bottom: var(--space-lg);
-	min-height: 1.5em;
+	letter-spacing: -0.01em;
+	line-height: 1.25;
+	margin-bottom: var(--space-xs);
+}
+
+.sectionSubtitle {
+	font-family: var(--font-mono);
+	font-size: var(--font-size-body);
+	color: var(--color-gray);
+	max-width: 680px;
+	margin-bottom: 0;
 	line-height: var(--line-height-normal);
 }
 
-.commandPlaceholder {
-	visibility: hidden;
-}
-
-.commandPrompt {
-	color: var(--color-success);
-	margin-right: var(--space-sm);
-}
-
-.cursor {
-	display: inline-block;
-	width: 8px;
-	height: 16px;
-	background-color: var(--color-success);
-	margin-left: 2px;
-	animation: blink 1s step-end infinite;
-	vertical-align: text-bottom;
-}
-
-@keyframes blink {
-	0%,
-	100% {
-		opacity: 1;
-	}
-	50% {
-		opacity: 0;
-	}
-}
-
-/* Cards grid */
-.grid {
+/* ============================================
+   Bento Grid Asimétrico (1 Wide Card + 2 Cards)
+   ============================================ */
+.bentoGrid {
 	display: grid;
-	grid-template-columns: repeat(3, 1fr);
+	grid-template-columns: repeat(2, 1fr);
 	gap: var(--space-lg);
 }
 
-/* Card base — hidden before reveal */
-.card {
-	opacity: 0;
-	transform: translateY(12px);
-	transition:
-		opacity 0.4s ease,
-		transform 0.4s ease;
-	display: flex;
-	flex-direction: column;
-	background-color: var(--color-dark);
+/* 1. Bloque Principal (Full Width / Span 2) */
+.featuredCard {
+	grid-column: span 2;
+	display: grid;
+	grid-template-columns: 1.25fr 0.75fr;
+	gap: var(--space-xl);
+	align-items: center;
+	background-color: var(--color-surface);
 	border: 1px solid var(--color-border);
 	border-radius: var(--radius-micro);
-	padding: var(--space-lg);
+	padding: var(--space-xl);
+	transition:
+		border-color var(--transition-fast),
+		background-color var(--transition-fast);
 }
 
-.gridVisible .card {
-	opacity: 1;
-	transform: translateY(0);
-}
-
-.card:hover {
+.featuredCard:hover {
 	border-color: var(--color-border-strong);
 }
 
-.cardTitle {
-	font-family: var(--font-mono);
-	font-size: var(--font-size-body);
-	font-weight: var(--font-weight-bold);
-	color: var(--color-light);
-	margin-bottom: var(--space-sm);
+.cardMainContent {
+	display: flex;
+	flex-direction: column;
 }
 
-.cardDesc {
+.cardHeader {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: var(--space-md);
+	padding-bottom: var(--space-xs);
+	border-bottom: 1px solid var(--color-border);
+	flex-wrap: wrap;
+	gap: var(--space-xs);
+}
+
+.cardTag {
 	font-family: var(--font-mono);
-	font-size: var(--font-size-small);
+	font-size: 0.75rem;
+	font-weight: var(--font-weight-bold);
+	color: var(--color-accent);
+	letter-spacing: 0.04em;
+}
+
+.statusBadge {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 2px 8px;
+	background-color: var(--color-dark);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-micro);
+	font-family: var(--font-mono);
+	font-size: 0.6875rem;
 	color: var(--color-gray);
-	line-height: var(--line-height-normal);
+}
+
+.statusDot {
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background-color: var(--color-success);
+	box-shadow: 0 0 0 2px rgba(48, 209, 88, 0.25);
+}
+
+.categoryBadge {
+	font-family: var(--font-mono);
+	font-size: 0.6875rem;
+	font-weight: var(--font-weight-medium);
+	letter-spacing: 0.05em;
+	color: var(--color-text-muted);
+	background-color: var(--color-dark);
+	padding: 2px 6px;
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-micro);
+}
+
+.featuredTitle {
+	font-family: var(--font-mono);
+	font-size: clamp(1.125rem, 2vw, 1.25rem);
+	font-weight: var(--font-weight-bold);
+	color: var(--color-light);
+	line-height: 1.35;
 	margin-bottom: var(--space-md);
 }
 
-/* Features */
-.features {
+/* Points List */
+.pointsList {
 	list-style: none;
-	margin: 0 0 var(--space-lg);
-	flex: 1;
+	margin: 0 0 var(--space-xl);
+	padding: 0;
 	display: flex;
 	flex-direction: column;
 	gap: var(--space-xs);
 }
 
-.featureItem {
+.pointItem {
+	display: flex;
+	align-items: baseline;
+	gap: var(--space-xs);
 	font-family: var(--font-mono);
-	font-size: var(--font-size-small);
-	color: var(--color-text-muted);
+	font-size: 0.8125rem;
+	color: var(--color-light);
+	line-height: 1.45;
 }
 
-.featurePrompt {
-	color: var(--color-accent);
-	margin-right: var(--space-sm);
+.checkIcon {
+	color: var(--color-success);
+	font-weight: var(--font-weight-bold);
+	flex-shrink: 0;
 }
 
-/* CTA */
-.cardCta {
+/* Primary CTA Button (Featured Block) */
+.btnPrimaryCta {
 	display: inline-flex;
 	align-items: center;
-	align-self: flex-start;
-	padding: 4px 16px;
+	gap: var(--space-xs);
+	padding: 8px 22px;
 	font-family: var(--font-mono);
-	font-size: var(--font-size-small);
+	font-size: 0.875rem;
+	font-weight: var(--font-weight-medium);
+	color: var(--color-light);
+	background-color: var(--color-dark);
+	border: 1px solid var(--color-border-strong);
+	border-radius: var(--radius-micro);
+	text-decoration: none;
+	align-self: flex-start;
+	transition:
+		border-color var(--transition-fast),
+		background-color var(--transition-fast),
+		color var(--transition-fast);
+}
+
+.btnPrimaryCta:hover {
+	border-color: var(--color-accent);
+	background-color: var(--color-surface);
+	color: var(--color-light);
+}
+
+.ctaArrow {
+	color: var(--color-accent);
+	transition: transform var(--transition-fast);
+}
+
+.btnPrimaryCta:hover .ctaArrow,
+.btnOutlineCta:hover .ctaArrow {
+	transform: translateX(3px);
+}
+
+/* Micro Terminal Simulation */
+.terminalSim {
+	background-color: var(--color-dark);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-micro);
+	overflow: hidden;
+	font-family: var(--font-mono);
+}
+
+.terminalSimHeader {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 6px 10px;
+	background-color: #1a1717;
+	border-bottom: 1px solid var(--color-border);
+	font-size: 0.6875rem;
+}
+
+.chromeDots {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+}
+
+.dot {
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background-color: var(--color-border-strong);
+}
+
+.dot:nth-child(1) {
+	background-color: var(--color-danger);
+	opacity: 0.8;
+}
+
+.dot:nth-child(2) {
+	background-color: var(--color-warning);
+	opacity: 0.8;
+}
+
+.dot:nth-child(3) {
+	background-color: var(--color-success);
+	opacity: 0.8;
+}
+
+.terminalSimTitle {
+	color: var(--color-text-muted);
+	font-size: 0.6875rem;
+}
+
+.terminalSimStatus {
+	font-size: 0.625rem;
+	font-weight: var(--font-weight-bold);
+	color: var(--color-success);
+	background-color: #121f15;
+	padding: 1px 4px;
+	border: 1px solid #1e3d23;
+	border-radius: 2px;
+}
+
+.terminalSimBody {
+	padding: var(--space-md);
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	font-size: 0.75rem;
+}
+
+.simLine {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.simPrompt {
+	color: var(--color-accent);
+	font-weight: var(--font-weight-bold);
+}
+
+.simCmd {
+	color: var(--color-light);
+}
+
+.simOutputSuccess {
+	color: var(--color-success);
+	font-size: 0.75rem;
+}
+
+.simSummary {
+	margin-top: 6px;
+	padding-top: 6px;
+	border-top: 1px dashed var(--color-border);
+	color: var(--color-accent);
+	font-size: 0.6875rem;
+	font-weight: var(--font-weight-bold);
+	letter-spacing: 0.05em;
+}
+
+/* 2 & 3. Bloques Secundarios (50% / 50%) */
+.secondaryCard {
+	display: flex;
+	flex-direction: column;
+	background-color: var(--color-surface);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-micro);
+	padding: var(--space-xl);
+	transition:
+		border-color var(--transition-fast),
+		background-color var(--transition-fast);
+}
+
+.secondaryCard:hover {
+	border-color: var(--color-border-strong);
+}
+
+.cardTitle {
+	font-family: var(--font-mono);
+	font-size: 1.0625rem;
+	font-weight: var(--font-weight-bold);
+	color: var(--color-light);
+	line-height: 1.35;
+	margin-bottom: var(--space-md);
+}
+
+.cardFooter {
+	margin-top: auto;
+}
+
+.btnOutlineCta {
+	display: inline-flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	padding: 6px 14px;
+	font-family: var(--font-mono);
+	font-size: 0.8125rem;
 	font-weight: var(--font-weight-medium);
 	line-height: var(--line-height-relaxed);
 	color: var(--color-light);
-	background-color: transparent;
+	background-color: var(--color-dark);
 	border: 1px solid var(--color-border-strong);
 	border-radius: var(--radius-micro);
 	text-decoration: none;
 	transition:
 		border-color var(--transition-fast),
+		background-color var(--transition-fast),
 		color var(--transition-fast);
 }
 
-.cardCta:hover {
+.btnOutlineCta:hover {
 	border-color: var(--color-accent);
 	color: var(--color-accent);
 }
 
 /* Responsive */
-@media (max-width: 640px) {
-	.grid {
+@media (max-width: 900px) {
+	.bentoGrid {
 		grid-template-columns: 1fr;
 	}
-}
 
-@media (min-width: 641px) and (max-width: 900px) {
-	.grid {
-		grid-template-columns: repeat(2, 1fr);
+	.featuredCard {
+		grid-column: span 1;
+		grid-template-columns: 1fr;
+		gap: var(--space-lg);
 	}
 }
 
-/* Respect reduced motion preference */
+@media (max-width: 640px) {
+	.section {
+		margin-top: var(--space-2xl);
+	}
+
+	.featuredCard,
+	.secondaryCard {
+		padding: var(--space-md);
+	}
+
+	.btnPrimaryCta {
+		width: 100%;
+		justify-content: center;
+	}
+}
+
+/* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
-	.card {
-		opacity: 1;
-		transform: translateY(0);
+	.featuredCard,
+	.secondaryCard,
+	.btnPrimaryCta,
+	.btnOutlineCta,
+	.ctaArrow {
 		transition: none;
 	}
 
-	.cursor {
-		animation: none;
-		opacity: 0;
-	}
-
-	.gridVisible .card {
-		transition: none;
+	.btnPrimaryCta:hover .ctaArrow,
+	.btnOutlineCta:hover .ctaArrow {
+		transform: none;
 	}
 }

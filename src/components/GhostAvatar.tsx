@@ -1,9 +1,14 @@
 import styles from "./GhostAvatar.module.css";
 
-export default function GhostAvatar({ size = 80 }: { size?: number }) {
+interface GhostAvatarProps {
+	size?: number;
+	className?: string;
+}
+
+export default function GhostAvatar({ size = 80, className = "" }: GhostAvatarProps) {
 	return (
 		<svg
-			className={styles.ghost}
+			className={`${styles.ghost} ${className}`.trim()}
 			width={size}
 			height={size}
 			viewBox="0 0 100 100"

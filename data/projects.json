@@ -1,25 +1,92 @@
 {
   "projects": [
     {
-      "id": "1777938155124",
-      "githubUrl": "https://github.com/Gustav0C/AcortadorDeUrl",
-      "title": "AcortadorDeUrl",
-      "description": "Un acortador de URLs moderno con interfaz minimalista y códigos QR",
-      "image": "https://github.com/user-attachments/assets/57fea1c4-ab83-473e-b67d-91d462667e62",
+      "id": "1793469351560",
+      "title": "Mikui",
+      "description": "Mikui es una app movil que conecta a exploradores gastronómicos con pequeños negocios locales. Escaneá códigos QR, descubrí sabores únicos, acumulá puntos y canjeá recompensas en la tienda.",
+      "image": "/projects/1793513664993-Screenshot_20261031-125453_Mikui.png",
       "technologies": [
-        "Node.js",
-        "Express",
-        "Vercel",
-        "HTML",
-        "CSS",
-        "Git"
+        "React Native",
+        "Typescript",
+        "Supabase",
+        "Expo"
       ],
-      "stars": 2,
-      "demoUrl": "https://fis-url.vercel.app"
+      "stars": 0,
+      "githubUrl": "",
+      "isPrivate": true,
+      "category": "commercial",
+      "projectType": "mobile"
     },
     {
-      "id": "1776980840657",
-      "githubUrl": "https://github.com/Gustav0C/PomodoroApp",
+      "id": "1793468998560",
+      "title": "Qilqa",
+      "description": "Plataforma SaaS integral para restaurantes, cafeterías y negocios gastronómicos. Transforma la experiencia en mesa mediante cartas digitales interactivas, pedidos directos por salón y WhatsApp, fidelización de clientes y captación automatizada de reseñas en Google Maps con códigos QR inteligentes.",
+      "demoUrl": "https://qilqa.vercel.app",
+      "image": "/projects/1793468998545-Screenshot_2026-10-31_124808.png",
+      "technologies": [
+        "React",
+        "Typescript",
+        "tailwind",
+        "supabase"
+      ],
+      "stars": 0,
+      "githubUrl": "",
+      "isPrivate": true,
+      "category": "commercial"
+    },
+    {
+      "id": "1793464223258",
+      "githubUrl": "https://github.com/Gustav0C/usb-recovery.git",
+      "title": "Usb Recovery",
+      "description": "USB File Recovery Tool - Recupera archivos eliminados de USB usando file carving",
+      "image": "https://github.com/user-attachments/assets/738779af-fa60-489d-909f-eacdf31859a0",
+      "technologies": [
+        "Python",
+        "HTML",
+        "Git",
+        "API"
+      ],
+      "stars": 1,
+      "isPrivate": false,
+      "category": "opensource",
+      "projectType": "system"
+    },
+    {
+      "id": "1793463553072",
+      "githubUrl": "https://github.com/Gustav0C/script-modelos-locales.git",
+      "title": "Script Modelos Locales",
+      "description": "Sin descripción",
+      "image": "https://github.com/user-attachments/assets/d9b48062-02f6-48b0-bda9-f32c69109b73",
+      "technologies": [
+        "Git",
+        "REST",
+        "API"
+      ],
+      "stars": 1,
+      "isPrivate": false,
+      "category": "opensource",
+      "projectType": "system"
+    },
+    {
+      "id": "1793463383342",
+      "githubUrl": "https://github.com/Gustav0C/qr-gen.git",
+      "title": "Qr Gen",
+      "description": "Generador CLI de códigos QR matemáticos, estáticos y permanentes para la terminal. Exporta en PNG, WebP, SVG y consola ANSI.",
+      "image": "https://github.com/user-attachments/assets/e6120eb2-02c3-4b03-bdcf-def52b88805d",
+      "technologies": [
+        "JavaScript",
+        "Node.js",
+        "Git",
+        "API"
+      ],
+      "stars": 1,
+      "isPrivate": false,
+      "category": "opensource",
+      "projectType": "system"
+    },
+    {
+      "id": "1793463263868",
+      "githubUrl": "https://github.com/Gustav0C/PomodoroApp.git",
       "title": "PomodoroApp",
       "description": "Pomodoro App Simple y Minimalista",
       "image": "https://github.com/user-attachments/assets/06c9a0ca-5e12-4cdb-be17-3278ef655c65",
@@ -32,7 +99,24 @@
         "JavaScript"
       ],
       "stars": 1,
-      "demoUrl": "https://fis-pomodoro.vercel.app/"
+      "demoUrl": "https://fis-pomodoro.vercel.app"
+    },
+    {
+      "id": "1793463235517",
+      "githubUrl": "https://github.com/Gustav0C/AcortadorDeUrl.git",
+      "title": "AcortadorDeUrl",
+      "description": "Un acortador de URLs moderno con interfaz minimalista y códigos QR",
+      "image": "https://github.com/user-attachments/assets/72ce9dd7-44f7-4c45-bca3-d117876278cc",
+      "technologies": [
+        "Node.js",
+        "Express",
+        "Vercel",
+        "HTML",
+        "CSS",
+        "Git"
+      ],
+      "stars": 2,
+      "demoUrl": "https://fis-url.vercel.app"
     }
   ]
 }

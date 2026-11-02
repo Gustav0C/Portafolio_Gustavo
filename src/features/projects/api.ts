@@ -82,3 +82,26 @@ export const validateAdminToken = async (password: string) => {
 
 	return true;
 };
+
+export const uploadProjectImage = async (file: File): Promise<string> => {
+	const formData = new FormData();
+	formData.append("file", file);
+
+	const response = await fetch("/api/projects/upload", {
+		method: "POST",
+		headers: {
+			Authorization: `Bearer ${getAdminToken()}`,
+		},
+		body: formData,
+	});
+
+	if (!response.ok) {
+		const data = (await response.json().catch(() => ({}))) as {
+			error?: string;
+		};
+		throw new Error(data.error || "No se pudo subir la imagen");
+	}
+
+	const data = (await response.json()) as { url: string };
+	return data.url;
+};

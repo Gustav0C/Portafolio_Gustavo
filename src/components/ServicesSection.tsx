@@ -1,184 +1,165 @@
-"use client";
-
-import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import styles from "./ServicesSection.module.css";
 
-const services = [
-	{
-		title: "Desarrollo Web Full Stack",
-		desc: "Aplicaciones web modernas, APIs y sistemas escalables desde cero.",
-		features: [
-			"Apps con React, Next.js, TypeScript",
-			"APIs y backend con Node.js, Python",
-			"Bases de datos SQL y NoSQL",
-			"Deploy y DevOps en Vercel, Docker",
-		],
-	},
-	{
-		title: "Integración de IA",
-		desc: "Agentes inteligentes, automatizaciones y asistentes personalizados.",
-		features: [
-			"Agentes y automatizaciones con IA",
-			"Asistentes inteligentes a medida",
-			"Optimización de workflows",
-			"Integración de LLMs y APIs de IA",
-		],
-	},
-	{
-		title: "Consultoría Técnica",
-		desc: "Arquitectura, code review y mentoría para llevar tu proyecto al nivel siguiente.",
-		features: [
-			"Arquitectura de software y code review",
-			"Migraciones y optimización de proyectos",
-			"Mentoría técnica para equipos",
-			"UI/UX con foco en rendimiento",
-		],
-	},
-];
-
 export default function ServicesSection() {
-	const [hasBeenVisible, setHasBeenVisible] = useState(false);
-	const [typedText, setTypedText] = useState("");
-	const [showCards, setShowCards] = useState(false);
-	const [showCursor, setShowCursor] = useState(true);
-	const [reducedMotion, setReducedMotion] = useState(false);
-	const [mounted, setMounted] = useState(false);
-	const sectionRef = useRef<HTMLElement>(null);
+	return (
+		<section className={styles.section} aria-labelledby="services-heading">
+			{/* Section Header */}
+			<div className={styles.header}>
+				<div className={styles.sectionTag}>
+					{"// 01. CAPACIDADES & SERVICIOS"}
+				</div>
+				<h2 id="services-heading" className={styles.sectionTitle}>
+					Soluciones de Software &amp; Sistemas de IA
+				</h2>
+				<p className={styles.sectionSubtitle}>
+					Ingeniería de software orientada a resultados: productos digitales escalables, automatizaciones inteligentes y código blindado para producción.
+				</p>
+			</div>
 
-	// Check for reduced motion preference - initialize on mount, then subscribe
-	useEffect(() => {
-		// eslint-disable-next-line react-hooks/set-state-in-effect
-		setMounted(true);
-		const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-		setReducedMotion(mediaQuery.matches);
+			{/* Bento Grid Asimétrico */}
+			<div className={styles.bentoGrid}>
+				{/* 1. Bloque Principal (Tarjeta Ancha Destacada) */}
+				<article className={styles.featuredCard}>
+					<div className={styles.cardMainContent}>
+						<div className={styles.cardHeader}>
+							<span className={styles.cardTag}>
+								[01] FULL-STACK &amp; PRODUCTOS DIGITALES
+							</span>
+							<div className={styles.statusBadge} aria-hidden="true">
+								<span className={styles.statusDot} />
+								<span>ready for production</span>
+							</div>
+						</div>
 
-		const handler = (event: MediaQueryListEvent) => {
-			setReducedMotion(event.matches);
-		};
+						<h3 className={styles.featuredTitle}>
+							Aplicaciones web y móviles escalables, desde la arquitectura inicial hasta producción.
+						</h3>
 
-		mediaQuery.addEventListener("change", handler);
-		return () => mediaQuery.removeEventListener("change", handler);
-	}, []);
-
-	// IntersectionObserver — trigger animation once when section scrolls into view
-	useEffect(() => {
-		const el = sectionRef.current;
-		if (!el || !mounted) return;
-
-		const observer = new IntersectionObserver(
-			([entry]) => {
-				if (entry.isIntersecting) {
-					setHasBeenVisible(true);
-					observer.disconnect();
-				}
-			},
-			{ threshold: 0.15 },
-		);
-
-		observer.observe(el);
-		return () => observer.disconnect();
-	}, [mounted]);
-
- 	// Typewriter effect (skip if reduced motion)
- 	useEffect(() => {
-  		if (!hasBeenVisible || !mounted) return;
-
-  		if (reducedMotion) {
-  			return;
-  		}
-
-  		const command = "cat servicios.txt";
-  		let index = 0;
-
-  		const interval = setInterval(() => {
-  			index++;
-  			setTypedText(command.slice(0, index));
-
-  			if (index >= command.length) {
-  				clearInterval(interval);
-  				setShowCursor(false);
-
-  				// Reveal cards after typing finishes
-  				setTimeout(() => setShowCards(true), 400);
-  			}
-  		}, 45);
-
-  		return () => clearInterval(interval);
-  	}, [hasBeenVisible, reducedMotion, mounted]);
-
- 	// For reduced motion, show everything immediately
- 	const displayTypedText = reducedMotion ? "cat servicios.txt" : typedText;
- 	const displayShowCursor = reducedMotion ? false : showCursor;
- 	const displayShowCards = reducedMotion ? true : showCards;
-
- 	// During SSR or before mount, render placeholder to avoid hydration mismatch
- 	if (!mounted) {
- 		return (
- 			<section ref={sectionRef} className={styles.section}>
- 				<div className={styles.commandLine}>
- 					<span className={styles.commandPlaceholder}>&nbsp;</span>
- 				</div>
- 				<div className={styles.grid}>
- 					{services.map((service) => (
- 						<article key={service.title} className={styles.card}>
- 							<h3 className={styles.cardTitle}>{service.title}</h3>
- 							<p className={styles.cardDesc}>{service.desc}</p>
- 							<ul className={styles.features}>
- 								{service.features.map((feature) => (
- 									<li key={feature} className={styles.featureItem}>
- 										<span className={styles.featurePrompt}>&gt;</span>
- 										{feature}
- 									</li>
- 								))}
- 							</ul>
- 						</article>
- 					))}
- 				</div>
- 			</section>
- 		);
- 	}
-
- 	return (
-  		<section ref={sectionRef} className={styles.section}>
-  			{/* Terminal command line */}
-  			<div className={styles.commandLine}>
-  				{hasBeenVisible ? (
-  					<>
-  						<span className={styles.commandPrompt}>$</span>
-  						{displayTypedText}
-  						{displayShowCursor && <span className={styles.cursor} />}
-  					</>
-  				) : (
-  					<span className={styles.commandPlaceholder}>&nbsp;</span>
-  				)}
-  			</div>
-
-			{/* Cards grid */}
-			<div className={`${styles.grid} ${displayShowCards ? styles.gridVisible : ""}`}>
-				{services.map((service, i) => (
-					<article
-						key={service.title}
-						className={styles.card}
-						style={{ transitionDelay: reducedMotion ? "0ms" : `${i * 120}ms` }}
-					>
-						<h3 className={styles.cardTitle}>{service.title}</h3>
-						<p className={styles.cardDesc}>{service.desc}</p>
-
-						<ul className={styles.features}>
-							{service.features.map((feature) => (
-								<li key={feature} className={styles.featureItem}>
-									<span className={styles.featurePrompt}>&gt;</span>
-									{feature}
-								</li>
-							))}
+						<ul className={styles.pointsList}>
+							<li className={styles.pointItem}>
+								<span className={styles.checkIcon} aria-hidden="true">✓</span>
+								<span>MVPs funcionales en tiempo récord</span>
+							</li>
+							<li className={styles.pointItem}>
+								<span className={styles.checkIcon} aria-hidden="true">✓</span>
+								<span>Apps móviles nativas/cross-platform</span>
+							</li>
+							<li className={styles.pointItem}>
+								<span className={styles.checkIcon} aria-hidden="true">✓</span>
+								<span>Backend seguro y APIs de alto rendimiento</span>
+							</li>
 						</ul>
 
-						<Link href="/contacto" className={styles.cardCta}>
-							Solicitar &rarr;
+						<Link href="/contacto" className={styles.btnPrimaryCta}>
+							<span>Cotizar proyecto</span>
+							<span className={styles.ctaArrow} aria-hidden="true">&rarr;</span>
 						</Link>
-					</article>
-				))}
+					</div>
+
+					{/* Elemento visual decorativo: Micro simulación de terminal */}
+					<div className={styles.terminalSim} aria-hidden="true">
+						<div className={styles.terminalSimHeader}>
+							<div className={styles.chromeDots}>
+								<span className={styles.dot} />
+								<span className={styles.dot} />
+								<span className={styles.dot} />
+							</div>
+							<span className={styles.terminalSimTitle}>deploy.sh</span>
+							<span className={styles.terminalSimStatus}>ACTIVE</span>
+						</div>
+						<div className={styles.terminalSimBody}>
+							<div className={styles.simLine}>
+								<span className={styles.simPrompt}>$</span>
+								<span className={styles.simCmd}>deploy --env=production</span>
+							</div>
+							<div className={styles.simOutputSuccess}>
+								✓ architecture: clean &amp; scalable
+							</div>
+							<div className={styles.simOutputSuccess}>
+								✓ typecheck: 0 errors (strict mode)
+							</div>
+							<div className={styles.simOutputSuccess}>
+								✓ performance: web vitals 100%
+							</div>
+							<div className={styles.simSummary}>
+								STATUS: 100% OPERATIONAL
+							</div>
+						</div>
+					</div>
+				</article>
+
+				{/* 2. Bloque Secundario: Agentes IA & Automatización */}
+				<article className={styles.secondaryCard}>
+					<div className={styles.cardHeader}>
+						<span className={styles.cardTag}>
+							[02] AGENTES IA &amp; AUTOMATIZACIÓN
+						</span>
+						<span className={styles.categoryBadge}>AI PIPELINES</span>
+					</div>
+
+					<h3 className={styles.cardTitle}>
+						Flujos de trabajo autónomos y pipelines inteligentes para reducir horas operativas y costos manuales.
+					</h3>
+
+					<ul className={styles.pointsList}>
+						<li className={styles.pointItem}>
+							<span className={styles.checkIcon} aria-hidden="true">✓</span>
+							<span>Agentes con tool-use y memoria</span>
+						</li>
+						<li className={styles.pointItem}>
+							<span className={styles.checkIcon} aria-hidden="true">✓</span>
+							<span>Pipelines RAG con datos del negocio</span>
+						</li>
+						<li className={styles.pointItem}>
+							<span className={styles.checkIcon} aria-hidden="true">✓</span>
+							<span>Automatización end-to-end</span>
+						</li>
+					</ul>
+
+					<div className={styles.cardFooter}>
+						<Link href="/contacto" className={styles.btnOutlineCta}>
+							<span>Explorar soluciones</span>
+							<span className={styles.ctaArrow} aria-hidden="true">&rarr;</span>
+						</Link>
+					</div>
+				</article>
+
+				{/* 3. Bloque de Especialidad: Auditoría & Rescate de Código IA */}
+				<article className={styles.secondaryCard}>
+					<div className={styles.cardHeader}>
+						<span className={styles.cardTag}>
+							[03] AUDITORÍA &amp; RESCATE DE CÓDIGO IA
+						</span>
+						<span className={styles.categoryBadge}>ESPECIALIDAD</span>
+					</div>
+
+					<h3 className={styles.cardTitle}>
+						Blindaje técnico, tipado estricto y refactorización para prototipos o código generado por herramientas de IA.
+					</h3>
+
+					<ul className={styles.pointsList}>
+						<li className={styles.pointItem}>
+							<span className={styles.checkIcon} aria-hidden="true">✓</span>
+							<span>De prototipo inestable a producción limpia</span>
+						</li>
+						<li className={styles.pointItem}>
+							<span className={styles.checkIcon} aria-hidden="true">✓</span>
+							<span>Tipado estricto y testing</span>
+						</li>
+						<li className={styles.pointItem}>
+							<span className={styles.checkIcon} aria-hidden="true">✓</span>
+							<span>Cero deuda técnica</span>
+						</li>
+					</ul>
+
+					<div className={styles.cardFooter}>
+						<Link href="/contacto" className={styles.btnOutlineCta}>
+							<span>Solicitar auditoría</span>
+							<span className={styles.ctaArrow} aria-hidden="true">&rarr;</span>
+						</Link>
+					</div>
+				</article>
 			</div>
 		</section>
 	);

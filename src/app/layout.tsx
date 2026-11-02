@@ -10,7 +10,7 @@ import MobileNav from "@/components/MobileNav";
 import berkeleyMono from "./fonts";
 
 export const metadata: Metadata = {
-	metadataBase: new URL("https://gustavo-canales.vercel.app"),
+	metadataBase: new URL("https://gcanales.is-a.dev"),
 	title:
 		"Gustavo Canales | Desarrollador Full Stack | React, Next.js, TypeScript",
 	description:
@@ -24,7 +24,8 @@ export const metadata: Metadata = {
 		"JavaScript",
 		"portfolio",
 		"web developer",
-		"developer Argentina",
+		"developer Peru",
+		"developer Perú",
 		"freelance developer",
 		"Python",
 		"Node.js",
@@ -37,12 +38,12 @@ export const metadata: Metadata = {
 		description:
 			"Portafolio profesional - Desarrollador Full Stack especializado en React, Next.js, TypeScript y herramientas de IA",
 		type: "website",
-		locale: "es_AR",
-		url: "https://gustavo-canales.vercel.app",
+		locale: "es_PE",
+		url: "https://gcanales.is-a.dev",
 		siteName: "Gustavo Canales",
 		images: [
 			{
-				url: "https://gustavo-canales.vercel.app/og-image.png",
+				url: "https://gcanales.is-a.dev/og-image.png",
 				width: 1200,
 				height: 630,
 				alt: "Gustavo Canales - Portafolio de Desarrollador Full Stack",
@@ -55,7 +56,7 @@ export const metadata: Metadata = {
 		title: "Gustavo Canales | Desarrollador Full Stack",
 		description: "Portafolio profesional - React, Next.js, TypeScript y IA",
 		creator: "@Gustav0C",
-		images: ["https://gustavo-canales.vercel.app/og-image.png"],
+		images: ["https://gcanales.is-a.dev/og-image.png"],
 	},
 	robots: {
 		index: true,
@@ -68,7 +69,7 @@ export const metadata: Metadata = {
 		google: "add-your-google-verification-code",
 	},
 	alternates: {
-		canonical: "https://gustavo-canales.vercel.app",
+		canonical: "https://gcanales.is-a.dev",
 	},
 };
 
@@ -102,8 +103,8 @@ export default function RootLayout({
 							"@context": "schema.org",
 							"@type": "Organization",
 							name: "Gustavo Canales",
-							url: "https://gustavo-canales.vercel.app",
-							logo: "https://gustavo-canales.vercel.app/og-image.png",
+							url: "https://gcanales.is-a.dev",
+							logo: "https://gcanales.is-a.dev/og-image.png",
 							description:
 								"Portafolio profesional de Gustavo Canales - Desarrollador Full Stack",
 							sameAs: [
@@ -133,8 +134,8 @@ export default function RootLayout({
 							"@context": "schema.org",
 							"@type": "Person",
 							name: "Gustavo Canales",
-							url: "https://gustavo-canales.vercel.app",
-							image: "https://gustavo-canales.vercel.app/og-image.png",
+							url: "https://gcanales.is-a.dev",
+							image: "https://gcanales.is-a.dev/og-image.png",
 							jobTitle: "Full Stack Developer",
 							email: "gcanales58@gmail.com",
 							sameAs: [
@@ -169,7 +170,7 @@ export default function RootLayout({
 									"@type": "ListItem",
 									position: 1,
 									name: "Home",
-									item: "https://gustavo-canales.vercel.app/",
+									item: "https://gcanales.is-a.dev/",
 								},
 							],
 						}),
@@ -187,13 +188,25 @@ export default function RootLayout({
 					{/* Navigation */}
 					<nav className={styles.navbar} aria-label="Navegación principal">
 						<div className={styles.navbarInner}>
-							<Link href="/" className={styles.brand}>
-								Gscp
+							<Link href="/" className={styles.brand} aria-label="Gustavo Canales - Home">
+								<span className={styles.brandPrompt} aria-hidden="true">
+									~
+								</span>
+								<span className={styles.brandSlash} aria-hidden="true">
+									/
+								</span>
+								<span className={styles.brandName}>gscp</span>
+								<span className={styles.brandBadge} aria-hidden="true">
+									<span className={styles.brandDot} />
+									<span className={styles.brandStatus}>online</span>
+								</span>
 							</Link>
 							<div className={styles.navRight}>
 								<NavLinks />
-								<MobileNav />
-								<ThemeToggle />
+								<div className={styles.navControls}>
+									<ThemeToggle />
+									<MobileNav />
+								</div>
 							</div>
 						</div>
 					</nav>
@@ -206,39 +219,94 @@ export default function RootLayout({
 					{/* Footer */}
 					<footer className={styles.footer}>
 						<div className={styles.footerInner}>
-							<p className={styles.copyright}>
-								© {new Date().getFullYear()} Gustavo Canales
-							</p>
-							<ul className={styles.footerLinks}>
-								<li>
-									<a
-										href="https://github.com/Gustav0C"
-										target="_blank"
-										rel="noopener noreferrer"
-										className={styles.footerLink}
-									>
-										GitHub
-									</a>
-								</li>
-								<li>
-									<a
-										href="https://www.linkedin.com/in/gscp/"
-										target="_blank"
-										rel="noopener noreferrer"
-										className={styles.footerLink}
-									>
-										LinkedIn
-									</a>
-								</li>
-								<li>
-									<a
-										href="mailto:gcanales58@gmail.com"
-										className={styles.footerLink}
-									>
-										Email
-									</a>
-								</li>
-							</ul>
+							<div className={styles.footerGrid}>
+								{/* Col 1: Identity */}
+								<div className={styles.footerBrandCol}>
+									<Link href="/" className={styles.footerBrand} aria-label="Gustavo Canales - Home">
+										<span className={styles.brandPrompt} aria-hidden="true">~</span>
+										<span className={styles.brandSlash} aria-hidden="true">/</span>
+										<span className={styles.brandName}>gscp</span>
+									</Link>
+									<p className={styles.footerRole}>
+										Gustavo Canales · Full Stack Engineer &amp; AI Integrator
+									</p>
+									<div className={styles.footerStatus}>
+										<span className={styles.statusDot} aria-hidden="true" />
+										<span>ONLINE · ICA, PE (GMT-5)</span>
+									</div>
+								</div>
+
+								{/* Col 2: Navigation */}
+								<nav className={styles.footerNavCol} aria-label="Navegación pie de página">
+									<span className={styles.footerColHeading}>{"// NAVEGACIÓN"}</span>
+									<ul className={styles.footerColList}>
+										<li>
+											<Link href="/" className={styles.footerNavLink}>
+												<span className={styles.footerLinkPrefix}>{"01 //"}</span> Inicio
+											</Link>
+										</li>
+										<li>
+											<Link href="/proyectos" className={styles.footerNavLink}>
+												<span className={styles.footerLinkPrefix}>{"02 //"}</span> Proyectos
+											</Link>
+										</li>
+										<li>
+											<Link href="/perfil" className={styles.footerNavLink}>
+												<span className={styles.footerLinkPrefix}>{"03 //"}</span> Perfil
+											</Link>
+										</li>
+										<li>
+											<Link href="/contacto" className={styles.footerNavLink}>
+												<span className={styles.footerLinkPrefix}>{"04 //"}</span> Contacto
+											</Link>
+										</li>
+									</ul>
+								</nav>
+
+								{/* Col 3: Channels */}
+								<div className={styles.footerNavCol}>
+									<span className={styles.footerColHeading}>{"// CANALES"}</span>
+									<ul className={styles.footerColList}>
+										<li>
+											<a
+												href="https://github.com/Gustav0C"
+												target="_blank"
+												rel="noopener noreferrer"
+												className={styles.footerNavLink}
+											>
+												<span className={styles.footerLinkPrefix}>↗</span> GitHub
+											</a>
+										</li>
+										<li>
+											<a
+												href="https://www.linkedin.com/in/gscp/"
+												target="_blank"
+												rel="noopener noreferrer"
+												className={styles.footerNavLink}
+											>
+												<span className={styles.footerLinkPrefix}>↗</span> LinkedIn
+											</a>
+										</li>
+										<li>
+											<a
+												href="mailto:gcanales58@gmail.com"
+												className={styles.footerNavLink}
+											>
+												<span className={styles.footerLinkPrefix}>@</span> Email
+											</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+
+							<div className={styles.footerBottom}>
+								<p className={styles.copyright}>
+									© {new Date().getFullYear()} Gustavo Canales · Terminal Monospace Aesthetic
+								</p>
+								<div className={styles.footerSysStatus} aria-hidden="true">
+									<span>SYS_STATUS: OPTIMAL</span>
+								</div>
+							</div>
 						</div>
 					</footer>
 				</div>

@@ -95,7 +95,7 @@ export async function POST(request: NextRequest) {
 		for (const project of body.projects) {
 			if (
 				typeof project.id !== "string" ||
-				typeof project.githubUrl !== "string" ||
+				(project.githubUrl !== undefined && typeof project.githubUrl !== "string") ||
 				typeof project.title !== "string"
 			) {
 				return NextResponse.json(
@@ -105,7 +105,10 @@ export async function POST(request: NextRequest) {
 			}
 		}
 
-		const projects = body.projects;
+		const projects = body.projects.map((p) => ({
+			...p,
+			githubUrl: p.githubUrl || "",
+		}));
 
 		mkdirSync(dirname(PROJECTS_FILE), { recursive: true });
 		writeFileSync(PROJECTS_FILE, JSON.stringify({ projects }, null, 2));

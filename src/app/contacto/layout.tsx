@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SchemaScript } from "@/components/SchemaScript";
 
 export const metadata: Metadata = {
   title: "Contacto | Gustavo Canales - Desarrollador Full Stack",
@@ -7,11 +8,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Contacto - Gustavo Canales",
     description: "Ponte en contacto para proyectos, consultoría y colaboración",
-    url: "https://gustavo-canales.vercel.app/contacto",
+    url: "https://gcanales.is-a.dev/contacto",
     type: "website",
   },
   alternates: {
-    canonical: "https://gustavo-canales.vercel.app/contacto",
+    canonical: "https://gcanales.is-a.dev/contacto",
   },
 };
 
@@ -20,32 +21,28 @@ export default function ContactoLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://gcanales.is-a.dev/",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Contacto",
+        item: "https://gcanales.is-a.dev/contacto",
+      },
+    ],
+  };
+
   return (
     <>
-      {/* Breadcrumb Schema - JSON-LD for Contact Page */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            itemListElement: [
-              {
-                "@type": "ListItem",
-                position: 1,
-                name: "Home",
-                item: "https://gustavo-canales.vercel.app/",
-              },
-              {
-                "@type": "ListItem",
-                position: 2,
-                name: "Contacto",
-                item: "https://gustavo-canales.vercel.app/contacto",
-              },
-            ],
-          }),
-        }}
-      />
+      <SchemaScript data={breadcrumbSchema} />
       {children}
     </>
   );

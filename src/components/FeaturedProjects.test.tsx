@@ -91,6 +91,44 @@ beforeEach(() => {
 });
 
 describe("FeaturedProjects", () => {
+	it("renders section header and title", async () => {
+		global.fetch = vi.fn().mockResolvedValue({
+			ok: true,
+			json: () => Promise.resolve({ projects: mockProjects, canEdit: false }),
+		});
+
+		render(<FeaturedProjects />);
+
+		expect(
+			screen.getByText("// 03. PROYECTOS DESTACADOS"),
+		).toBeInTheDocument();
+		expect(
+			screen.getByRole("heading", {
+				level: 2,
+				name: /Software en Producción & Casos de Estudio/i,
+			}),
+		).toBeInTheDocument();
+	});
+
+	it("renders project images with proper alt text", async () => {
+		global.fetch = vi.fn().mockResolvedValue({
+			ok: true,
+			json: () => Promise.resolve({ projects: mockProjects, canEdit: false }),
+		});
+
+		render(<FeaturedProjects />);
+
+		await waitFor(() => {
+			expect(
+				screen.getByAltText("Captura del proyecto Test Project One"),
+			).toBeInTheDocument();
+		});
+
+		expect(
+			screen.getByAltText("Captura del proyecto Test Project Two"),
+		).toBeInTheDocument();
+	});
+
 	it("renders project titles from the data", async () => {
 		global.fetch = vi.fn().mockResolvedValue({
 			ok: true,
@@ -191,6 +229,45 @@ describe("FeaturedProjects", () => {
 		await waitFor(() => {
 			expect(screen.getByText("Ver más proyectos →")).toBeInTheDocument();
 		});
+	});
+
+	it("filters and shows only main/commercial projects when mixed with open source", async () => {
+		const mixedProjects = [
+			{
+				id: "app-1",
+				title: "Main Mobile App",
+				description: "Private mobile application",
+				image: "https://example.com/mobile.png",
+				technologies: ["React Native"],
+				stars: 0,
+				isPrivate: true,
+				category: "commercial" as const,
+			},
+			{
+				id: "oss-1",
+				githubUrl: "https://github.com/user/oss-lib",
+				title: "Open Source Tool",
+				description: "A public library",
+				image: "https://example.com/oss.png",
+				technologies: ["TypeScript"],
+				stars: 120,
+				isPrivate: false,
+				category: "opensource" as const,
+			},
+		];
+
+		global.fetch = vi.fn().mockResolvedValue({
+			ok: true,
+			json: () => Promise.resolve({ projects: mixedProjects, canEdit: false }),
+		});
+
+		render(<FeaturedProjects />);
+
+		await waitFor(() => {
+			expect(screen.getByText("Main Mobile App")).toBeInTheDocument();
+		});
+
+		expect(screen.queryByText("Open Source Tool")).not.toBeInTheDocument();
 	});
 
 	it("renders repo links pointing to GitHub", async () => {

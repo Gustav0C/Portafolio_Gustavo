@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import GhostAvatar from "./GhostAvatar";
 import styles from "./HomeTerminal.module.css";
 
 interface TerminalLine {
@@ -11,13 +12,15 @@ interface TerminalLine {
 
 const lines: TerminalLine[] = [
 	{ prompt: "$", text: " whoami" },
-	{ text: "Gustavo Canales - Full Stack Developer" },
-	{ prompt: "$", text: " cat skills.txt" },
-	{ text: "React, TypeScript, Next.js, Python, SQL" },
+	{ text: "Gustavo Canales — Full Stack & AI Systems" },
+	{ prompt: "$", text: " cat focus.json" },
+	{ text: '["Next.js", "TypeScript", "React", "AI Agents"]' },
+	{ prompt: "$", text: " echo $STATUS" },
+	{ text: "available_for_hire: true [ica, pe]" },
 	{ prompt: "$", text: "", isLast: true },
 ];
 
-const TYPING_SPEED = 40;
+const TYPING_SPEED = 30;
 
 export default function HomeTerminal() {
 	const [visibleLines, setVisibleLines] = useState<number>(0);
@@ -43,7 +46,7 @@ export default function HomeTerminal() {
 				charIndex++;
 				currentText = line.text.slice(0, charIndex);
 				setTypedText(currentText);
-				
+
 				// Announce typed text to screen readers
 				if (liveRegionRef.current) {
 					liveRegionRef.current.textContent = currentText;
@@ -101,63 +104,91 @@ export default function HomeTerminal() {
 					}
 				}
 			},
-			{ threshold: 0.3 },
+			{ threshold: 0.2 },
 		);
 
 		observer.observe(el);
 		return () => observer.disconnect();
 	}, [reducedMotion]);
 
-	// If reduced motion, render all lines immediately (only after mount to avoid hydration mismatch)
+	// Render window chrome helper
+	const renderHeader = () => (
+		<div className={styles.terminalHeader}>
+			<div className={styles.windowControls} aria-hidden="true">
+				<span className={styles.controlDot} />
+				<span className={styles.controlDot} />
+				<span className={styles.controlDot} />
+			</div>
+			<div className={styles.terminalTitle}>
+				<span>gscp@workstation: ~/portfolio</span>
+			</div>
+			<div className={styles.sessionBadge} title="Sesión activa">
+				<GhostAvatar size={18} className={styles.headerGhost} />
+			</div>
+		</div>
+	);
+
+	// If reduced motion, render all lines immediately
 	if (mounted && reducedMotion) {
 		return (
 			<div ref={sectionRef} className={styles.terminal}>
-				{lines.map((line, i) => (
-					<div key={i} className={styles.line}>
-						{line.prompt && (
-							<span className={styles.prompt}>{line.prompt}</span>
-						)}
-						<span>{line.text}</span>
-					</div>
-				))}
+				{renderHeader()}
+				<div className={styles.terminalBody}>
+					{lines.map((line, i) => (
+						<div key={i} className={styles.line}>
+							{line.prompt && (
+								<span className={styles.prompt}>{line.prompt}</span>
+							)}
+							<span>{line.text}</span>
+						</div>
+					))}
+				</div>
 			</div>
 		);
 	}
 
-	// During SSR or before mount, render empty terminal to avoid hydration mismatch
+	// During SSR or before mount, render empty terminal frame
 	if (!mounted) {
-		return <div ref={sectionRef} className={styles.terminal} />;
+		return (
+			<div ref={sectionRef} className={styles.terminal}>
+				{renderHeader()}
+				<div className={styles.terminalBody} />
+			</div>
+		);
 	}
 
 	return (
 		<div ref={sectionRef} className={styles.terminal}>
-			{/* Live region for screen readers */}
-			<div
-				ref={liveRegionRef}
-				aria-live="polite"
-				aria-atomic="true"
-				className={styles.liveRegion}
-			/>
-			{lines.map((line, i) => {
-				const isCurrentlyTyping = i === visibleLines - 1 && !done;
-				const isComplete = i < visibleLines - 1 || done;
-				const isLastLine = i === lines.length - 1;
+			{renderHeader()}
+			<div className={styles.terminalBody}>
+				{/* Live region for screen readers */}
+				<div
+					ref={liveRegionRef}
+					aria-live="polite"
+					aria-atomic="true"
+					className={styles.liveRegion}
+				/>
+				{lines.map((line, i) => {
+					const isCurrentlyTyping = i === visibleLines - 1 && !done;
+					const isComplete = i < visibleLines - 1 || done;
+					const isLastLine = i === lines.length - 1;
 
-				if (!isComplete && !isCurrentlyTyping) return null;
+					if (!isComplete && !isCurrentlyTyping) return null;
 
-				return (
-					<div key={i} className={styles.line}>
-						{line.prompt && (
-							<span className={styles.prompt}>{line.prompt}</span>
-						)}
-						<span>{isCurrentlyTyping ? typedText : line.text}</span>
-						{isCurrentlyTyping && showCursor && (
-							<span className={styles.cursor} />
-						)}
-						{isLastLine && done && <span className={styles.cursor} />}
-					</div>
-				);
-			})}
+					return (
+						<div key={i} className={styles.line}>
+							{line.prompt && (
+								<span className={styles.prompt}>{line.prompt}</span>
+							)}
+							<span>{isCurrentlyTyping ? typedText : line.text}</span>
+							{isCurrentlyTyping && showCursor && (
+								<span className={styles.cursor} />
+							)}
+							{isLastLine && done && <span className={styles.cursor} />}
+						</div>
+					);
+				})}
+			</div>
 		</div>
 	);
 }

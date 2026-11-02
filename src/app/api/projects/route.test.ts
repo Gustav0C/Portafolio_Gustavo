@@ -152,7 +152,7 @@ describe("/api/projects route", () => {
 	});
 
 	it("POST bloquea edición en producción", async () => {
-		process.env.NODE_ENV = "production";
+		vi.stubEnv("NODE_ENV", "production");
 		vi.resetModules();
 
 		const { POST } = await import("./route");

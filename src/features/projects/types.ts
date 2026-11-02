@@ -7,6 +7,9 @@ export interface Project {
 	technologies: string[];
 	stars: number;
 	demoUrl?: string;
+	isPrivate?: boolean;
+	category?: "commercial" | "opensource";
+	projectType?: "mobile" | "web" | "system";
 }
 
 export interface ProjectsApiResponse {

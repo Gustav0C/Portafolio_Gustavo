@@ -43,12 +43,13 @@ describe("TechIcon", () => {
 		expect(span?.getAttribute("aria-hidden")).toBe("true");
 	});
 
-	it("renders all 20 icon names without errors", () => {
+	it("renders all 28 icon names without errors", () => {
 		const iconNames = [
 			"react", "nextjs", "typescript", "js", "html5", "css3",
 			"tailwindcss", "nodejs", "expressjs", "python", "postgresql",
 			"mongodb", "redis", "docker", "git", "vercel", "aws", "vitejs",
-			"eslint", "prettier",
+			"eslint", "prettier", "supabase", "opencode", "claude", "codex",
+			"web", "agent", "ml", "workflow",
 		] as const;
 
 		for (const name of iconNames) {

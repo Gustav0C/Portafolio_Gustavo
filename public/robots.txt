@@ -24,7 +24,7 @@ Allow: /*.ico$
 # Request-rate: 10/1m
 
 # Sitemap reference
-Sitemap: https://gustavo-canales.vercel.app/sitemap.xml
+Sitemap: https://gcanales.is-a.dev/sitemap.xml
 
 # Additional rules for specific bots (optional)
 User-agent: Googlebot
