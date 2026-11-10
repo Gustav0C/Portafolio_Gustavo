@@ -1,14 +1,35 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
-import NavLinks from "@/components/NavLinks";
 import styles from "@/app/layout.module.css";
+
+const links = [
+	{ href: "/", label: "Inicio", index: "01" },
+	{ href: "/perfil", label: "Perfil", index: "02" },
+	{ href: "/proyectos", label: "Proyectos", index: "03" },
+	{ href: "/contacto", label: "Contacto", index: "04" },
+];
 
 export default function MobileNav() {
 	const [isOpen, setIsOpen] = useState(false);
 	const panelRef = useRef<HTMLDivElement>(null);
 	const previousActiveElement = useRef<HTMLElement | null>(null);
+	const pathname = usePathname();
+
+	// Body scroll lock
+	useEffect(() => {
+		if (isOpen) {
+			document.body.style.overflow = "hidden";
+		} else {
+			document.body.style.overflow = "";
+		}
+		return () => {
+			document.body.style.overflow = "";
+		};
+	}, [isOpen]);
 
 	// Focus trap when menu is open
 	useEffect(() => {
@@ -35,13 +56,11 @@ export default function MobileNav() {
 			if (event.key !== "Tab") return;
 
 			if (event.shiftKey) {
-				// Shift + Tab - going backwards
 				if (document.activeElement === firstElement) {
 					event.preventDefault();
 					lastElement?.focus();
 				}
 			} else {
-				// Tab - going forwards
 				if (document.activeElement === lastElement) {
 					event.preventDefault();
 					firstElement?.focus();
@@ -52,7 +71,6 @@ export default function MobileNav() {
 		panel.addEventListener("keydown", handleTab);
 		return () => {
 			panel.removeEventListener("keydown", handleTab);
-			// Restore focus to trigger element
 			previousActiveElement.current?.focus();
 		};
 	}, [isOpen]);
@@ -75,7 +93,7 @@ export default function MobileNav() {
 				type="button"
 				className={styles.mobileMenuButton}
 				aria-expanded={isOpen}
-				aria-controls="mobile-nav-links"
+				aria-controls="mobile-nav-panel"
 				aria-label={
 					isOpen ? "Cerrar menú de navegación" : "Abrir menú de navegación"
 				}
@@ -85,20 +103,94 @@ export default function MobileNav() {
 			</button>
 
 			{isOpen && (
-				<div
-					ref={panelRef}
-					className={styles.mobileMenuPanel}
-					id="mobile-nav-links"
-					role="dialog"
-					aria-modal="true"
-					aria-label="Menú de navegación"
-				>
-					<NavLinks
-						id="mobile-nav-links"
-						className={styles.mobileNavLinks}
-						onNavigate={() => setIsOpen(false)}
+				<>
+					{/* Backdrop */}
+					<div
+						className={styles.mobileBackdrop}
+						onClick={() => setIsOpen(false)}
+						aria-hidden="true"
 					/>
-				</div>
+
+					{/* Fullscreen Panel */}
+					<div
+						ref={panelRef}
+						className={styles.mobileMenuPanel}
+						id="mobile-nav-panel"
+						role="dialog"
+						aria-modal="true"
+						aria-label="Menú de navegación"
+					>
+						<div className={styles.mobilePanelHeader}>
+							<span className={styles.mobilePanelTag}>
+								{"// NAVEGACIÓN"}
+							</span>
+							<button
+								type="button"
+								className={styles.mobileMenuButton}
+								aria-label="Cerrar menú de navegación"
+								onClick={() => setIsOpen(false)}
+							>
+								<X size={18} />
+							</button>
+						</div>
+
+						<nav className={styles.mobileNavLinks} aria-label="Navegación principal móvil">
+							{links.map(({ href, label, index }) => {
+								const isActive =
+									href === "/" ? pathname === "/" : pathname.startsWith(href);
+								return (
+									<Link
+										key={href}
+										href={href}
+										className={`${styles.mobileNavItem} ${isActive ? styles.mobileNavItemActive : ""}`}
+										onClick={() => setIsOpen(false)}
+									>
+										<span className={styles.mobileNavIndex} aria-hidden="true">
+											{index} {"//"}
+										</span>
+										<span className={styles.mobileNavLabel}>{label}</span>
+										{isActive && (
+											<span className={styles.mobileNavActive} aria-hidden="true">
+												ACTIVE
+											</span>
+										)}
+									</Link>
+								);
+							})}
+						</nav>
+
+						<div className={styles.mobilePanelFooter}>
+							<div className={styles.mobilePanelStatus}>
+								<span className={styles.statusDot} aria-hidden="true" />
+								<span>ONLINE · ICA, PERÚ</span>
+							</div>
+							<div className={styles.mobilePanelLinks}>
+								<a
+									href="https://github.com/Gustav0C"
+									target="_blank"
+									rel="noopener noreferrer"
+									className={styles.mobilePanelLink}
+								>
+									GitHub
+								</a>
+								<a
+									href="https://www.linkedin.com/in/gscp/"
+									target="_blank"
+									rel="noopener noreferrer"
+									className={styles.mobilePanelLink}
+								>
+									LinkedIn
+								</a>
+								<a
+									href="mailto:gcanales58@gmail.com"
+									className={styles.mobilePanelLink}
+								>
+									Email
+								</a>
+							</div>
+						</div>
+					</div>
+				</>
 			)}
 		</div>
 	);

@@ -34,13 +34,20 @@ describe("MobileNav", () => {
 		fireEvent.click(toggleButton);
 
 		expect(toggleButton).toHaveAttribute("aria-expanded", "true");
-		expect(screen.getByRole("link", { name: "Home" })).toBeInTheDocument();
+		expect(screen.getByRole("link", { name: /Inicio/i })).toBeInTheDocument();
+		expect(screen.getByRole("link", { name: /Proyectos/i })).toBeInTheDocument();
+		expect(screen.getByRole("link", { name: /Perfil/i })).toBeInTheDocument();
+		expect(screen.getByRole("link", { name: /Contacto/i })).toBeInTheDocument();
 
-		fireEvent.click(toggleButton);
+		// Close via close buttons (first is toggle, second is panel close)
+		const closeButtons = screen.getAllByRole("button", {
+			name: "Cerrar menú de navegación",
+		});
+		fireEvent.click(closeButtons[0]);
 
 		expect(toggleButton).toHaveAttribute("aria-expanded", "false");
 		expect(
-			screen.queryByRole("link", { name: "Home" }),
+			screen.queryByRole("link", { name: /Inicio/i }),
 		).not.toBeInTheDocument();
 	});
 
@@ -52,13 +59,43 @@ describe("MobileNav", () => {
 		});
 
 		fireEvent.click(toggleButton);
-		expect(screen.getByRole("link", { name: "Proyectos" })).toBeInTheDocument();
+		expect(screen.getByRole("link", { name: /Proyectos/i })).toBeInTheDocument();
 
 		fireEvent.keyDown(window, { key: "Escape" });
 
 		expect(
-			screen.queryByRole("link", { name: "Proyectos" }),
+			screen.queryByRole("link", { name: /Proyectos/i }),
 		).not.toBeInTheDocument();
 		expect(toggleButton).toHaveAttribute("aria-expanded", "false");
+	});
+
+	it("renders social links in footer when open", () => {
+		render(<MobileNav />);
+
+		fireEvent.click(screen.getByRole("button", { name: "Abrir menú de navegación" }));
+
+		expect(screen.getByRole("link", { name: /GitHub/i })).toHaveAttribute(
+			"href", "https://github.com/Gustav0C"
+		);
+		expect(screen.getByRole("link", { name: /LinkedIn/i })).toHaveAttribute(
+			"href", "https://www.linkedin.com/in/gscp/"
+		);
+		expect(screen.getByRole("link", { name: /Email/i })).toHaveAttribute(
+			"href", "mailto:gcanales58@gmail.com"
+		);
+	});
+
+	it("closes menu when clicking backdrop", () => {
+		render(<MobileNav />);
+
+		fireEvent.click(screen.getByRole("button", { name: "Abrir menú de navegación" }));
+		expect(screen.getByRole("dialog")).toBeInTheDocument();
+
+		// Click the backdrop (the sibling element right before the dialog)
+		const dialog = screen.getByRole("dialog");
+		const backdrop = dialog.previousElementSibling as HTMLElement;
+		fireEvent.click(backdrop);
+
+		expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
 	});
 });
